@@ -87,7 +87,7 @@ const CourseViewer: React.FC = () => {
                 <title>{activeFile.name} — DevTutorials.io</title>
             </Helmet>
 
-            <div className="max-w-3xl mx-auto px-6 py-12 md:px-10">
+            <div className="max-w-7xl mx-auto px-6 py-12 md:px-10">
                 {/* Meta badge */}
                 <div className="mb-8 flex items-center gap-2 text-indigo-400/80 text-xs font-medium uppercase tracking-widest">
                     <Code2 size={14} />
