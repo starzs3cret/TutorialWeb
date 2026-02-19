@@ -11,8 +11,10 @@ import {
     Search,
     Sparkles,
     Settings,
+    Package,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBundleContext } from '@/contexts/BundleContext';
 import { flattenFileSystem } from '@/data/courses';
 import type { FileNode } from '@/types';
 
@@ -140,6 +142,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     const navigate = useNavigate();
     const location = useLocation();
     const { user, isDemo } = useAuth();
+    const { bundles, activeBundleId, setActiveBundleId } = useBundleContext();
     const [expandedFolders, setExpandedFolders] = useState<string[]>(['intro']);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -155,6 +158,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     }, [navigate, onClose]);
 
     const isOnManage = location.pathname === '/manage';
+    const isOnBundles = location.pathname === '/bundles';
 
     return (
         <>
@@ -214,6 +218,26 @@ const Sidebar: React.FC<SidebarProps> = ({
                         </div>
                     </div>
 
+                    {/* Bundle selector */}
+                    {bundles.length > 0 && (
+                        <div className="relative mb-3">
+                            <Package className="absolute left-2.5 top-1/2 -translate-y-1/2 text-indigo-400/60 pointer-events-none" size={13} />
+                            <select
+                                value={activeBundleId || ''}
+                                onChange={(e) => setActiveBundleId(e.target.value || null)}
+                                className="w-full appearance-none bg-slate-950/60 border border-slate-800/60 rounded-lg py-2 pl-8 pr-8 text-xs text-slate-300
+                                    focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30
+                                    transition-all cursor-pointer"
+                            >
+                                <option value="">All Courses</option>
+                                {bundles.map((b) => (
+                                    <option key={b.id} value={b.id}>{b.name}</option>
+                                ))}
+                            </select>
+                            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" size={12} />
+                        </div>
+                    )}
+
                     {/* Search */}
                     <div className="relative">
                         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
@@ -252,12 +276,24 @@ const Sidebar: React.FC<SidebarProps> = ({
                     <button
                         onClick={() => navigate('/manage')}
                         className={`flex items-center gap-2 w-full px-3 py-2 text-xs rounded-lg transition-colors cursor-pointer ${isOnManage
-                                ? 'bg-indigo-500/10 text-indigo-300'
-                                : 'text-slate-500 hover:text-slate-300 hover:bg-white/[0.04]'
+                            ? 'bg-indigo-500/10 text-indigo-300'
+                            : 'text-slate-500 hover:text-slate-300 hover:bg-white/[0.04]'
                             }`}
                     >
                         <Settings size={14} />
                         <span>Manage Courses</span>
+                    </button>
+
+                    {/* Manage bundles link */}
+                    <button
+                        onClick={() => navigate('/bundles')}
+                        className={`flex items-center gap-2 w-full px-3 py-2 text-xs rounded-lg transition-colors cursor-pointer ${isOnBundles
+                            ? 'bg-indigo-500/10 text-indigo-300'
+                            : 'text-slate-500 hover:text-slate-300 hover:bg-white/[0.04]'
+                            }`}
+                    >
+                        <Package size={14} />
+                        <span>Manage Bundles</span>
                     </button>
 
                     {/* User */}

@@ -3,6 +3,7 @@ import AppLayout from '@/components/layout/AppLayout';
 import Landing from '@/pages/Landing';
 import CourseViewer from '@/pages/CourseViewer';
 import CourseManager from '@/pages/CourseManager';
+import BundleManager from '@/pages/BundleManager';
 import LoginPage from '@/pages/LoginPage';
 import NotFound from '@/pages/NotFound';
 
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/course/:lessonId" element={<CourseViewer />} />
         <Route path="/manage" element={<CourseManager />} />
+        <Route path="/bundles" element={<BundleManager />} />
       </Route>
 
       {/* Standalone pages */}

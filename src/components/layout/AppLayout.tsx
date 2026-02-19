@@ -3,6 +3,7 @@ import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { useCourseContext } from '@/contexts/CourseContext';
+import { useBundleContext } from '@/contexts/BundleContext';
 
 // ─────────────────────────────────────────────
 // APP LAYOUT — Sidebar + Header + <Outlet>
@@ -10,29 +11,34 @@ import { useCourseContext } from '@/contexts/CourseContext';
 
 const AppLayout: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const { courses, flatFiles, completedFiles, progress } = useCourseContext();
+    const { completedFiles } = useCourseContext();
+    const { filteredCourses, filteredFlatFiles } = useBundleContext();
     const { lessonId } = useParams();
     const navigate = useNavigate();
 
-    const currentIndex = flatFiles.findIndex((f) => f.id === lessonId);
-    const activeFile = currentIndex >= 0 ? flatFiles[currentIndex] : null;
+    const currentIndex = filteredFlatFiles.findIndex((f) => f.id === lessonId);
+    const activeFile = currentIndex >= 0 ? filteredFlatFiles[currentIndex] : null;
+
+    const progress = filteredFlatFiles.length > 0
+        ? Math.round((completedFiles.filter((id) => filteredFlatFiles.some((f) => f.id === id)).length / filteredFlatFiles.length) * 100)
+        : 0;
 
     const handleNavigate = useCallback(
         (direction: 'prev' | 'next') => {
-            const idx = flatFiles.findIndex((f) => f.id === lessonId);
-            if (direction === 'next' && idx < flatFiles.length - 1) {
-                navigate(`/course/${flatFiles[idx + 1].id}`);
+            const idx = filteredFlatFiles.findIndex((f) => f.id === lessonId);
+            if (direction === 'next' && idx < filteredFlatFiles.length - 1) {
+                navigate(`/course/${filteredFlatFiles[idx + 1].id}`);
             } else if (direction === 'prev' && idx > 0) {
-                navigate(`/course/${flatFiles[idx - 1].id}`);
+                navigate(`/course/${filteredFlatFiles[idx - 1].id}`);
             }
         },
-        [lessonId, flatFiles, navigate]
+        [lessonId, filteredFlatFiles, navigate]
     );
 
     return (
         <div className="flex h-screen bg-slate-950 text-slate-200 font-sans overflow-hidden">
             <Sidebar
-                courses={courses}
+                courses={filteredCourses}
                 activeFileId={lessonId || ''}
                 completedFiles={completedFiles}
                 progress={progress}
@@ -46,8 +52,8 @@ const AppLayout: React.FC = () => {
                     onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
                     activeFile={activeFile}
                     currentIndex={currentIndex}
-                    totalFiles={flatFiles.length}
-                    completedCount={completedFiles.length}
+                    totalFiles={filteredFlatFiles.length}
+                    completedCount={completedFiles.filter((id) => filteredFlatFiles.some((f) => f.id === id)).length}
                     onNavigate={handleNavigate}
                 />
 

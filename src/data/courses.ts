@@ -5,8 +5,10 @@ import type { FileNode } from '@/types';
 // ─────────────────────────────────────────────
 
 export const STORAGE_KEYS = {
-    COMPLETED: 'devtutorials-completed',
-    COURSES: 'devtutorials-courses',
+  COMPLETED: 'devtutorials-completed',
+  COURSES: 'devtutorials-courses',
+  BUNDLES: 'devtutorials-bundles',
+  ACTIVE_BUNDLE: 'devtutorials-active-bundle',
 } as const;
 
 // ─────────────────────────────────────────────
@@ -14,15 +16,15 @@ export const STORAGE_KEYS = {
 // ─────────────────────────────────────────────
 
 export const flattenFileSystem = (nodes: FileNode[]): FileNode[] => {
-    const flat: FileNode[] = [];
-    for (const node of nodes) {
-        if (node.type === 'file') {
-            flat.push(node);
-        } else if (node.children) {
-            flat.push(...flattenFileSystem(node.children));
-        }
+  const flat: FileNode[] = [];
+  for (const node of nodes) {
+    if (node.type === 'file') {
+      flat.push(node);
+    } else if (node.children) {
+      flat.push(...flattenFileSystem(node.children));
     }
-    return flat;
+  }
+  return flat;
 };
 
 // ─────────────────────────────────────────────
@@ -30,16 +32,16 @@ export const flattenFileSystem = (nodes: FileNode[]): FileNode[] => {
 // ─────────────────────────────────────────────
 
 export const defaultCourses: FileNode[] = [
-    {
-        id: 'intro',
-        name: 'Getting Started',
-        type: 'folder',
-        children: [
-            {
-                id: 'welcome',
-                name: 'Welcome to React Mastery',
-                type: 'file',
-                content: `# Welcome to the Course
+  {
+    id: 'intro',
+    name: 'Getting Started',
+    type: 'folder',
+    children: [
+      {
+        id: 'welcome',
+        name: 'Welcome to React Mastery',
+        type: 'file',
+        content: `# Welcome to the Course
 
 Welcome to the ultimate guide for modern React development. This platform is designed to track your progress as you move through the curriculum.
 
@@ -58,12 +60,12 @@ Each lesson builds on the last. Take your time, experiment with the code, and en
 - **Patterns** — real-world techniques used in production apps
 
 Let's get started!`,
-            },
-            {
-                id: 'setup',
-                name: 'Environment Setup',
-                type: 'file',
-                content: `# Setting Up Your Environment
+      },
+      {
+        id: 'setup',
+        name: 'Environment Setup',
+        type: 'file',
+        content: `# Setting Up Your Environment
 
 Before we write any code, we need the right tools installed.
 
@@ -99,19 +101,19 @@ my-app/
 \`\`\`
 
 The \`src/\` directory is where all your application code lives.`,
-            },
-        ],
-    },
-    {
-        id: 'ch1',
-        name: 'Chapter 1: Components',
-        type: 'folder',
-        children: [
-            {
-                id: 'func-comp',
-                name: 'Functional Components',
-                type: 'file',
-                content: `# Functional Components
+      },
+    ],
+  },
+  {
+    id: 'ch1',
+    name: 'Chapter 1: Components',
+    type: 'folder',
+    children: [
+      {
+        id: 'func-comp',
+        name: 'Functional Components',
+        type: 'file',
+        content: `# Functional Components
 
 React components are JavaScript functions that return JSX — a syntax extension that looks like HTML but compiles to \`React.createElement()\` calls.
 
@@ -151,12 +153,12 @@ function App() {
 \`\`\`
 
 This is the power of composition — small, focused components combined into complex interfaces.`,
-            },
-            {
-                id: 'props-state',
-                name: 'Props vs State',
-                type: 'file',
-                content: `# Props vs State
+      },
+      {
+        id: 'props-state',
+        name: 'Props vs State',
+        type: 'file',
+        content: `# Props vs State
 
 Understanding the difference between props and state is fundamental.
 
@@ -191,12 +193,12 @@ const Counter = () => {
 > **If a parent needs to know about it, lift the state up. If only this component cares, keep it local.**
 
 This principle guides 90% of state architecture decisions in React.`,
-            },
-            {
-                id: 'conditional',
-                name: 'Conditional Rendering',
-                type: 'file',
-                content: `# Conditional Rendering
+      },
+      {
+        id: 'conditional',
+        name: 'Conditional Rendering',
+        type: 'file',
+        content: `# Conditional Rendering
 
 React gives you multiple patterns for rendering content conditionally.
 
@@ -252,19 +254,19 @@ function UserProfile({ user, isLoading }) {
   );
 }
 \`\`\``,
-            },
-        ],
-    },
-    {
-        id: 'ch2',
-        name: 'Chapter 2: Hooks',
-        type: 'folder',
-        children: [
-            {
-                id: 'use-effect',
-                name: 'useEffect Deep Dive',
-                type: 'file',
-                content: `# The useEffect Hook
+      },
+    ],
+  },
+  {
+    id: 'ch2',
+    name: 'Chapter 2: Hooks',
+    type: 'folder',
+    children: [
+      {
+        id: 'use-effect',
+        name: 'useEffect Deep Dive',
+        type: 'file',
+        content: `# The useEffect Hook
 
 \`useEffect\` handles side effects — things that happen *outside* of rendering, like API calls, subscriptions, or DOM mutations.
 
@@ -313,12 +315,12 @@ useEffect(() => {
   return () => window.removeEventListener('keydown', handler);
 }, []);
 \`\`\``,
-            },
-            {
-                id: 'custom-hooks',
-                name: 'Building Custom Hooks',
-                type: 'file',
-                content: `# Custom Hooks
+      },
+      {
+        id: 'custom-hooks',
+        name: 'Building Custom Hooks',
+        type: 'file',
+        content: `# Custom Hooks
 
 Custom hooks let you extract and reuse stateful logic across components.
 
@@ -372,19 +374,19 @@ function ResponsiveLayout() {
 1. Custom hooks **must** start with \`use\`
 2. They can call other hooks
 3. They follow the same rules as regular hooks (no conditional calls)`,
-            },
-        ],
-    },
-    {
-        id: 'ch3',
-        name: 'Chapter 3: Patterns',
-        type: 'folder',
-        children: [
-            {
-                id: 'composition',
-                name: 'Composition Patterns',
-                type: 'file',
-                content: `# Composition Patterns
+      },
+    ],
+  },
+  {
+    id: 'ch3',
+    name: 'Chapter 3: Patterns',
+    type: 'folder',
+    children: [
+      {
+        id: 'composition',
+        name: 'Composition Patterns',
+        type: 'file',
+        content: `# Composition Patterns
 
 Composition is React's primary mechanism for code reuse — not inheritance.
 
@@ -443,12 +445,12 @@ function DataFetcher({ url, render }) {
 \`\`\`
 
 This pattern gives the parent full control over the rendered output.`,
-            },
-            {
-                id: 'perf',
-                name: 'Performance Optimization',
-                type: 'file',
-                content: `# Performance Optimization
+      },
+      {
+        id: 'perf',
+        name: 'Performance Optimization',
+        type: 'file',
+        content: `# Performance Optimization
 
 React is fast by default, but there are techniques to make it faster.
 
@@ -506,7 +508,7 @@ function SearchResults({ query, data }) {
 - **Memoize** expensive computations with \`useMemo\`
 - **Stabilize** callbacks with \`useCallback\` when passing to memoized children
 - **Split** large components so React can re-render less`,
-            },
-        ],
-    },
+      },
+    ],
+  },
 ];

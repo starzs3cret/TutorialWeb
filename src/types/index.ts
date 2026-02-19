@@ -10,6 +10,12 @@ export interface FileNode {
     children?: FileNode[];
 }
 
+export interface Bundle {
+    id: string;
+    name: string;
+    courseIds: string[];
+}
+
 export interface UserProfile {
     uid: string;
     displayName: string | null;

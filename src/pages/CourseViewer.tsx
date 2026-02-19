@@ -10,11 +10,13 @@ import {
 } from 'lucide-react';
 import MarkdownRenderer from '@/components/markdown/MarkdownRenderer';
 import { useCourseContext } from '@/contexts/CourseContext';
+import { useBundleContext } from '@/contexts/BundleContext';
 
 const CourseViewer: React.FC = () => {
     const { lessonId } = useParams<{ lessonId: string }>();
     const navigate = useNavigate();
-    const { flatFiles, completedFiles, toggleComplete, progress } = useCourseContext();
+    const { completedFiles, toggleComplete, progress } = useCourseContext();
+    const { filteredFlatFiles: flatFiles } = useBundleContext();
 
     const currentIndex = useMemo(
         () => flatFiles.findIndex((f) => f.id === lessonId),

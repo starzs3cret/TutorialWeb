@@ -9,13 +9,16 @@ import {
     ArrowRight,
     CheckCircle2,
 } from 'lucide-react';
-import { useCourses } from '@/hooks/useCourses';
-import { useCourseProgress } from '@/hooks/useCourseProgress';
+import { useCourseContext } from '@/contexts/CourseContext';
+import { useBundleContext } from '@/contexts/BundleContext';
 
 const Landing: React.FC = () => {
     const navigate = useNavigate();
-    const { courses } = useCourses();
-    const { progress, completedFiles, flatFiles } = useCourseProgress(courses);
+    const { completedFiles } = useCourseContext();
+    const { filteredCourses: courses, filteredFlatFiles: flatFiles } = useBundleContext();
+    const progress = flatFiles.length > 0
+        ? Math.round((completedFiles.filter((id) => flatFiles.some((f) => f.id === id)).length / flatFiles.length) * 100)
+        : 0;
 
     const features = [
         { icon: <BookOpen size={20} />, title: 'Structured Lessons', desc: 'Follow a curated curriculum from basics to advanced patterns.' },
@@ -140,8 +143,8 @@ const Landing: React.FC = () => {
                                             key={lesson.id}
                                             onClick={() => navigate(`/course/${lesson.id}`)}
                                             className={`text-xs px-2.5 py-1 rounded-md transition-colors cursor-pointer ${completedFiles.includes(lesson.id)
-                                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                                    : 'bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:text-slate-200 hover:border-slate-600/50'
+                                                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                                : 'bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:text-slate-200 hover:border-slate-600/50'
                                                 }`}
                                         >
                                             {lesson.name}

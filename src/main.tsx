@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CourseProvider } from '@/contexts/CourseContext';
+import { BundleProvider } from '@/contexts/BundleContext';
 import App from './App';
 import './index.css';
 
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <AuthProvider>
           <CourseProvider>
-            <App />
+            <BundleProvider>
+              <App />
+            </BundleProvider>
           </CourseProvider>
         </AuthProvider>
       </BrowserRouter>
