@@ -17,7 +17,7 @@ interface CourseContextValue {
     addCourse: (name: string) => string;
     addChapter: (courseId: string, name: string) => string;
     addLesson: (parentId: string, name: string, content: string) => string;
-    addLessonToChapter: (courseId: string, chapterId: string, name: string, content: string) => string;
+    addLessonToChapter: (chapterId: string, name: string, content: string) => string;
     updateLesson: (lessonId: string, updates: { name?: string; content?: string }) => void;
     deleteNode: (nodeId: string) => void;
     deleteCourse: (courseId: string) => void;
@@ -141,7 +141,7 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         return id;
     }, []);
 
-    const addLessonToChapter = useCallback((courseId: string, chapterId: string, name: string, content: string) => {
+    const addLessonToChapter = useCallback((chapterId: string, name: string, content: string) => {
         const id = generateId();
         setCourses((prev) => addChildToNode(prev, chapterId, { id, name, type: 'file', content }));
         return id;
