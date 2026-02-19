@@ -33,6 +33,7 @@ const CourseManager: React.FC = () => {
         reorderLesson,
         reorderCourse,
         importMarkdown,
+        importMultipleMarkdown,
         resetToDefaults,
     } = useCourseContext();
 
@@ -99,13 +100,23 @@ const CourseManager: React.FC = () => {
 
     const handleImportClick = (parentId: string) => {
         setImportParentId(parentId);
-        fileInputRef.current?.click();
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''; // Reset to allow re-selection
+            fileInputRef.current.click();
+        }
     };
 
     const handleFileImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file || !importParentId) return;
-        await importMarkdown(importParentId, file);
+        const files = e.target.files;
+        if (!files || files.length === 0 || !importParentId) return;
+
+        const fileArray = Array.from(files);
+        if (fileArray.length === 1) {
+            await importMarkdown(importParentId, fileArray[0]);
+        } else {
+            await importMultipleMarkdown(importParentId, fileArray);
+        }
+
         setImportParentId(null);
         e.target.value = '';
     };
@@ -424,6 +435,7 @@ const CourseManager: React.FC = () => {
                 <input
                     ref={fileInputRef}
                     type="file"
+                    multiple
                     accept=".md,.markdown,.txt"
                     onChange={handleFileImport}
                     className="hidden"

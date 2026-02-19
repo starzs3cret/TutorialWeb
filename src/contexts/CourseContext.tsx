@@ -24,6 +24,7 @@ interface CourseContextValue {
     reorderLesson: (parentId: string, childId: string, direction: 'up' | 'down') => void;
     reorderCourse: (courseId: string, direction: 'up' | 'down') => void;
     importMarkdown: (parentId: string, file: File) => Promise<string>;
+    importMultipleMarkdown: (parentId: string, files: File[]) => Promise<string[]>;
     resetToDefaults: () => void;
     // Progress
     completedFiles: string[];
@@ -51,6 +52,18 @@ function addChildToNode(nodes: FileNode[], parentId: string, child: FileNode): F
         }
         if (node.children) {
             return { ...node, children: addChildToNode(node.children, parentId, child) };
+        }
+        return node;
+    });
+}
+
+function addChildrenToNode(nodes: FileNode[], parentId: string, children: FileNode[]): FileNode[] {
+    return nodes.map((node) => {
+        if (node.id === parentId) {
+            return { ...node, children: [...(node.children || []), ...children] };
+        }
+        if (node.children) {
+            return { ...node, children: addChildrenToNode(node.children, parentId, children) };
         }
         return node;
     });
@@ -189,6 +202,30 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         });
     }, [addLesson]);
 
+    const importMultipleMarkdown = useCallback(async (parentId: string, files: File[]): Promise<string[]> => {
+        const promises = files.map(file => new Promise<FileNode>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target?.result as string;
+                const name = file.name.replace(/\.md$/, '').replace(/[-_]/g, ' ');
+                const id = generateId();
+                resolve({ id, name, type: 'file', content });
+            };
+            reader.onerror = () => reject(new Error(`Failed to read file: ${file.name}`));
+            reader.readAsText(file);
+        }));
+
+        try {
+            const newNodes = await Promise.all(promises);
+            const newIds = newNodes.map(n => n.id);
+            setCourses(prev => addChildrenToNode(prev, parentId, newNodes));
+            return newIds;
+        } catch (error) {
+            console.error("Error importing files:", error);
+            throw error;
+        }
+    }, []);
+
     const resetToDefaults = useCallback(() => {
         setCourses(defaultCourses);
     }, []);
@@ -225,6 +262,7 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 reorderLesson,
                 reorderCourse,
                 importMarkdown,
+                importMultipleMarkdown,
                 resetToDefaults,
                 completedFiles,
                 toggleComplete,
