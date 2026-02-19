@@ -28,7 +28,7 @@ const renderInline = (text: string): React.ReactNode => {
                     key={match.index}
                     src={src}
                     alt={alt}
-                    className="max-w-full rounded-lg my-2 border border-slate-800/40"
+                    className="max-w-full rounded-lg my-2 border border-border-default"
                 />
             );
         }
@@ -42,7 +42,7 @@ const renderInline = (text: string): React.ReactNode => {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 decoration-indigo-500/40 hover:decoration-indigo-400/60 transition-colors"
+                    className="text-primary hover:text-primary-hover underline underline-offset-2 decoration-primary/40 hover:decoration-primary/60 transition-colors"
                 >
                     {linkText}
                 </a>
@@ -51,7 +51,7 @@ const renderInline = (text: string): React.ReactNode => {
         // Bold
         else if (m.startsWith('**') && m.endsWith('**')) {
             parts.push(
-                <strong key={match.index} className="font-semibold text-white">
+                <strong key={match.index} className="font-semibold text-fg-primary">
                     {m.slice(2, -2)}
                 </strong>
             );
@@ -59,7 +59,7 @@ const renderInline = (text: string): React.ReactNode => {
         // Strikethrough
         else if (m.startsWith('~~') && m.endsWith('~~')) {
             parts.push(
-                <del key={match.index} className="text-slate-500 line-through">
+                <del key={match.index} className="text-fg-muted line-through">
                     {m.slice(2, -2)}
                 </del>
             );
@@ -67,7 +67,7 @@ const renderInline = (text: string): React.ReactNode => {
         // Inline code
         else if (m.startsWith('`') && m.endsWith('`')) {
             parts.push(
-                <code key={match.index} className="px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 text-[13px] font-mono">
+                <code key={match.index} className="px-1.5 py-0.5 rounded bg-surface-highlight text-primary text-[13px] font-mono border border-border-default">
                     {m.slice(1, -1)}
                 </code>
             );
@@ -75,7 +75,7 @@ const renderInline = (text: string): React.ReactNode => {
         // Italic
         else if (m.startsWith('*') && m.endsWith('*')) {
             parts.push(
-                <em key={match.index} className="text-slate-300 italic">
+                <em key={match.index} className="text-fg-secondary italic">
                     {m.slice(1, -1)}
                 </em>
             );
@@ -119,14 +119,14 @@ const parseTableAlignments = (separatorLine: string): ('left' | 'center' | 'righ
 };
 
 const TableRenderer: React.FC<{ table: TableData }> = ({ table }) => (
-    <div className="my-6 overflow-x-auto rounded-xl border border-slate-700/50">
+    <div className="my-6 overflow-x-auto rounded-xl border border-border-default">
         <table className="w-full text-sm">
             <thead>
-                <tr className="bg-slate-800/60 border-b border-slate-700/50">
+                <tr className="bg-surface-highlight border-b border-border-default">
                     {table.headers.map((h, i) => (
                         <th
                             key={i}
-                            className="px-4 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider"
+                            className="px-4 py-3 text-left text-xs font-semibold text-fg-secondary uppercase tracking-wider"
                             style={{ textAlign: table.alignments[i] || 'left' }}
                         >
                             {renderInline(h)}
@@ -134,13 +134,13 @@ const TableRenderer: React.FC<{ table: TableData }> = ({ table }) => (
                     ))}
                 </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/40">
+            <tbody className="divide-y divide-border-default/50">
                 {table.rows.map((row, ri) => (
-                    <tr key={ri} className="hover:bg-white/[0.02] transition-colors">
+                    <tr key={ri} className="hover:bg-surface-highlight/30 transition-colors">
                         {row.map((cell, ci) => (
                             <td
                                 key={ci}
-                                className="px-4 py-3 text-slate-300"
+                                className="px-4 py-3 text-fg-secondary"
                                 style={{ textAlign: table.alignments[ci] || 'left' }}
                             >
                                 {renderInline(cell)}
@@ -163,8 +163,8 @@ const ChecklistItem: React.FC<{ checked: boolean; text: string; onToggle?: () =>
             onClick={onToggle}
             className={`mt-1 w-4.5 h-4.5 rounded border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer
                 ${checked
-                    ? 'bg-indigo-500 border-indigo-500 text-white'
-                    : 'border-slate-600 hover:border-indigo-500/50 bg-transparent'}`}
+                    ? 'bg-primary border-primary text-primary-fg'
+                    : 'border-fg-muted hover:border-primary/50 bg-transparent'}`}
         >
             {checked && (
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -172,7 +172,7 @@ const ChecklistItem: React.FC<{ checked: boolean; text: string; onToggle?: () =>
                 </svg>
             )}
         </button>
-        <span className={`${checked ? 'line-through text-slate-500' : 'text-slate-300'} transition-colors`}>
+        <span className={`${checked ? 'line-through text-fg-muted' : 'text-fg-secondary'} transition-colors`}>
             {renderInline(text)}
         </span>
     </li>
@@ -232,7 +232,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
         // ── Headings ──
         if (line.startsWith('#### ')) {
             elements.push(
-                <h4 key={globalLineKey++} className="text-base font-semibold text-slate-200 mt-6 mb-2">
+                <h4 key={globalLineKey++} className="text-base font-semibold text-fg-primary mt-6 mb-2">
                     {renderInline(line.slice(5))}
                 </h4>
             );
@@ -240,7 +240,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
         }
         if (line.startsWith('### ')) {
             elements.push(
-                <h3 key={globalLineKey++} className="text-lg font-semibold text-slate-100 mt-8 mb-3">
+                <h3 key={globalLineKey++} className="text-lg font-semibold text-fg-primary mt-8 mb-3">
                     {renderInline(line.slice(4))}
                 </h3>
             );
@@ -248,7 +248,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
         }
         if (line.startsWith('## ')) {
             elements.push(
-                <h2 key={globalLineKey++} className="text-xl font-semibold text-indigo-400 mt-10 mb-4">
+                <h2 key={globalLineKey++} className="text-xl font-semibold text-primary mt-10 mb-4">
                     {renderInline(line.slice(3))}
                 </h2>
             );
@@ -256,7 +256,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
         }
         if (line.startsWith('# ')) {
             elements.push(
-                <h1 key={globalLineKey++} className="text-3xl font-bold text-white mb-6 mt-2 pb-3 border-b border-slate-800/60">
+                <h1 key={globalLineKey++} className="text-3xl font-bold text-fg-primary mb-6 mt-2 pb-3 border-b border-border-default">
                     {renderInline(line.slice(2))}
                 </h1>
             );
@@ -266,7 +266,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
         // ── Horizontal rule ──
         if (/^(-{3,}|\*{3,}|_{3,})\s*$/.test(line.trim())) {
             elements.push(
-                <hr key={globalLineKey++} className="my-8 border-0 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+                <hr key={globalLineKey++} className="my-8 border-0 h-px bg-gradient-to-r from-transparent via-border-default to-transparent" />
             );
             i++; continue;
         }
@@ -279,7 +279,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
                 i++;
             }
             elements.push(
-                <blockquote key={globalLineKey++} className="pl-4 border-l-2 border-indigo-500/50 text-slate-400 italic my-4 space-y-1">
+                <blockquote key={globalLineKey++} className="pl-4 border-l-2 border-primary/50 text-fg-secondary italic my-4 space-y-1">
                     {quoteLines.map((ql, qi) => <p key={qi}>{renderInline(ql)}</p>)}
                 </blockquote>
             );
@@ -331,7 +331,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
             elements.push(
                 <ul key={globalLineKey++} className="my-3 ml-5 space-y-1.5">
                     {listItems.map((item, idx) => (
-                        <li key={idx} className="list-disc marker:text-indigo-500/70">
+                        <li key={idx} className="list-disc marker:text-primary/70">
                             {renderInline(item)}
                         </li>
                     ))}
@@ -350,7 +350,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
             elements.push(
                 <ol key={globalLineKey++} className="my-3 ml-5 space-y-1.5">
                     {listItems.map((item, idx) => (
-                        <li key={idx} className="list-decimal marker:text-indigo-500/70">
+                        <li key={idx} className="list-decimal marker:text-primary/70">
                             {renderInline(item)}
                         </li>
                     ))}
@@ -367,7 +367,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
 
         // ── Paragraph ──
         elements.push(
-            <p key={globalLineKey++} className="mb-2 text-slate-300 leading-7">
+            <p key={globalLineKey++} className="mb-2 text-fg-secondary leading-7">
                 {renderInline(line)}
             </p>
         );
@@ -375,7 +375,7 @@ const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
     }
 
     return (
-        <div className="space-y-1 text-slate-300 leading-7">
+        <div className="space-y-1 text-fg-secondary leading-7">
             {elements}
         </div>
     );

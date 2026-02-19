@@ -28,30 +28,30 @@ const LoginPage: React.FC = () => {
                 <title>Sign In — DevTutorials.io</title>
             </Helmet>
 
-            <div className="flex items-center justify-center min-h-screen bg-slate-950">
+            <div className="flex items-center justify-center min-h-screen bg-canvas">
                 <div className="w-full max-w-sm p-8">
                     {/* Logo */}
                     <div className="flex items-center justify-center gap-2.5 mb-10">
-                        <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center">
-                            <Terminal size={20} className="text-indigo-400" />
+                        <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+                            <Terminal size={20} className="text-primary" />
                         </div>
-                        <h1 className="font-bold text-xl tracking-tight text-white">
-                            DevTutorials<span className="text-indigo-400">.io</span>
+                        <h1 className="font-bold text-xl tracking-tight text-fg-primary">
+                            DevTutorials<span className="text-primary">.io</span>
                         </h1>
                     </div>
 
                     <div className="text-center mb-8">
-                        <h2 className="text-2xl font-bold text-white mb-2">Welcome back</h2>
-                        <p className="text-sm text-slate-500">Sign in to manage your courses</p>
+                        <h2 className="text-2xl font-bold text-fg-primary mb-2">Welcome back</h2>
+                        <p className="text-sm text-fg-secondary">Sign in to manage your courses</p>
                     </div>
 
                     {/* Google sign-in button */}
                     <button
                         onClick={handleSignIn}
                         className="w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl
-              bg-white text-slate-900 font-semibold text-sm
-              hover:bg-slate-100 hover:-translate-y-0.5 active:translate-y-0
-              shadow-lg shadow-black/20 transition-all cursor-pointer"
+              bg-surface-highlight text-fg-primary font-semibold text-sm
+              hover:bg-surface hover:-translate-y-0.5 active:translate-y-0
+              shadow-lg shadow-black/20 transition-all cursor-pointer border border-border-default hover:border-border-highlight"
                     >
                         {isDemo ? (
                             <>
@@ -84,7 +84,7 @@ const LoginPage: React.FC = () => {
                     </button>
 
                     {isDemo && (
-                        <p className="text-center text-xs text-slate-600 mt-4">
+                        <p className="text-center text-xs text-fg-muted mt-4">
                             Firebase not configured. Running in demo mode.
                         </p>
                     )}
@@ -92,7 +92,7 @@ const LoginPage: React.FC = () => {
                     {/* Back link */}
                     <button
                         onClick={() => navigate('/')}
-                        className="w-full mt-6 py-2.5 text-center text-sm text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+                        className="w-full mt-6 py-2.5 text-center text-sm text-fg-muted hover:text-fg-primary transition-colors cursor-pointer"
                     >
                         ← Back to courses
                     </button>

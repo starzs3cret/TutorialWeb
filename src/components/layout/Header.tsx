@@ -35,20 +35,20 @@ const Header: React.FC<HeaderProps> = ({
     const { user, logOut } = useAuth();
 
     return (
-        <header className="h-14 border-b border-slate-800/60 flex items-center justify-between px-4 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-10">
+        <header className="h-14 border-b border-border-default flex items-center justify-between px-4 bg-canvas/80 backdrop-blur-xl sticky top-0 z-10">
             <div className="flex items-center gap-3">
                 <button
                     onClick={onToggleSidebar}
-                    className="p-2 text-slate-400 hover:text-white hover:bg-white/[0.06] rounded-lg transition-colors"
+                    className="p-2 text-fg-muted hover:text-fg-primary hover:bg-surface-highlight rounded-lg transition-colors"
                     aria-label="Toggle sidebar"
                 >
                     {isSidebarOpen ? <Menu size={18} /> : <BookOpen size={18} />}
                 </button>
                 {activeFile && (
-                    <nav className="hidden sm:flex text-sm text-slate-500 items-center gap-1.5">
+                    <nav className="hidden sm:flex text-sm text-fg-muted items-center gap-1.5">
                         <span>Course</span>
-                        <ChevronRight size={12} className="text-slate-600" />
-                        <span className="text-slate-200 font-medium truncate max-w-[240px]">
+                        <ChevronRight size={12} className="text-fg-muted" />
+                        <span className="text-fg-primary font-medium truncate max-w-[240px]">
                             {activeFile.name}
                         </span>
                     </nav>
@@ -58,14 +58,14 @@ const Header: React.FC<HeaderProps> = ({
             <div className="flex items-center gap-1.5">
                 {totalFiles > 0 && (
                     <>
-                        <span className="text-xs text-slate-500 mr-2 hidden sm:inline tabular-nums">
+                        <span className="text-xs text-fg-muted mr-2 hidden sm:inline tabular-nums">
                             {completedCount}/{totalFiles} completed
                         </span>
-                        <div className="h-5 w-px bg-slate-800 mx-1.5 hidden sm:block" />
+                        <div className="h-5 w-px bg-border-default mx-1.5 hidden sm:block" />
                         <button
                             onClick={() => onNavigate('prev')}
                             disabled={currentIndex <= 0}
-                            className="p-2 text-slate-400 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed rounded-lg hover:bg-white/[0.06] transition-colors"
+                            className="p-2 text-fg-muted hover:text-fg-primary disabled:opacity-20 disabled:cursor-not-allowed rounded-lg hover:bg-surface-highlight transition-colors"
                             aria-label="Previous lesson"
                         >
                             <ArrowLeft size={16} />
@@ -73,12 +73,12 @@ const Header: React.FC<HeaderProps> = ({
                         <button
                             onClick={() => onNavigate('next')}
                             disabled={currentIndex >= totalFiles - 1}
-                            className="p-2 text-slate-400 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed rounded-lg hover:bg-white/[0.06] transition-colors"
+                            className="p-2 text-fg-muted hover:text-fg-primary disabled:opacity-20 disabled:cursor-not-allowed rounded-lg hover:bg-surface-highlight transition-colors"
                             aria-label="Next lesson"
                         >
                             <ArrowRight size={16} />
                         </button>
-                        <div className="h-5 w-px bg-slate-800 mx-1.5 hidden sm:block" />
+                        <div className="h-5 w-px bg-border-default mx-1.5 hidden sm:block" />
                     </>
                 )}
 
@@ -86,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({
                 {user ? (
                     <button
                         onClick={logOut}
-                        className="flex items-center gap-2 px-3 py-1.5 text-xs text-slate-400 hover:text-white hover:bg-white/[0.06] rounded-lg transition-colors cursor-pointer"
+                        className="flex items-center gap-2 px-3 py-1.5 text-xs text-fg-muted hover:text-fg-primary hover:bg-surface-highlight rounded-lg transition-colors cursor-pointer"
                     >
                         <LogOut size={14} />
                         <span className="hidden sm:inline">Sign Out</span>
@@ -94,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({
                 ) : (
                     <button
                         onClick={() => navigate('/login')}
-                        className="flex items-center gap-2 px-3 py-1.5 text-xs text-indigo-300 hover:text-white hover:bg-indigo-500/10 rounded-lg transition-colors cursor-pointer"
+                        className="flex items-center gap-2 px-3 py-1.5 text-xs text-primary hover:text-primary-fg hover:bg-primary/20 rounded-lg transition-colors cursor-pointer"
                     >
                         <LogIn size={14} />
                         <span className="hidden sm:inline">Sign In</span>

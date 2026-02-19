@@ -37,16 +37,16 @@ const Landing: React.FC = () => {
             <div className="max-w-4xl mx-auto px-6 py-16 md:px-10">
                 {/* Hero */}
                 <div className="text-center mb-20">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-medium text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-medium text-primary bg-primary/10 border border-primary/20 rounded-full">
                         <Zap size={12} />
                         <span>{courses.length} Chapters · {flatFiles.length} Lessons</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
-                        Master <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">React</span> Development
+                    <h1 className="text-5xl md:text-6xl font-bold text-fg-primary mb-6 leading-tight tracking-tight">
+                        Master <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">React</span> Development
                     </h1>
 
-                    <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p className="text-lg text-fg-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
                         A hands-on curriculum covering components, hooks, and real-world patterns.
                         Track your progress, study the code, and level up.
                     </p>
@@ -54,8 +54,8 @@ const Landing: React.FC = () => {
                     <div className="flex items-center justify-center gap-4">
                         <button
                             onClick={() => navigate(`/course/${flatFiles[0]?.id || 'welcome'}`)}
-                            className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-sm bg-indigo-600 text-white
-                hover:bg-indigo-500 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30
+                            className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-sm bg-primary text-primary-fg
+                hover:bg-primary-hover shadow-lg shadow-primary/20 hover:shadow-primary/30
                 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer"
                         >
                             <span>Start Learning</span>
@@ -70,8 +70,8 @@ const Landing: React.FC = () => {
                                     if (nextIncomplete) navigate(`/course/${nextIncomplete.id}`);
                                 }}
                                 className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-sm
-                  bg-slate-800/60 text-slate-300 border border-slate-700/50
-                  hover:bg-slate-800 hover:text-white hover:-translate-y-0.5 transition-all cursor-pointer"
+                  bg-surface-highlight text-fg-secondary border border-border-default
+                  hover:bg-surface hover:text-fg-primary hover:-translate-y-0.5 transition-all cursor-pointer"
                             >
                                 <span>Continue ({progress}%)</span>
                             </button>
@@ -81,22 +81,22 @@ const Landing: React.FC = () => {
 
                 {/* Progress card */}
                 {progress > 0 && (
-                    <div className="mb-16 p-6 rounded-2xl bg-slate-900/50 border border-slate-800/50">
+                    <div className="mb-16 p-6 rounded-2xl bg-surface/50 border border-border-default">
                         <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm font-medium text-slate-300">Your Progress</span>
-                            <span className="text-sm font-bold text-indigo-400">{progress}%</span>
+                            <span className="text-sm font-medium text-fg-secondary">Your Progress</span>
+                            <span className="text-sm font-bold text-primary">{progress}%</span>
                         </div>
-                        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                        <div className="h-2 bg-surface-highlight rounded-full overflow-hidden">
                             <div
                                 className="h-full rounded-full transition-all duration-700 ease-out"
                                 style={{
                                     width: `${progress}%`,
-                                    background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
-                                    boxShadow: '0 0 12px rgba(99, 102, 241, 0.4)',
+                                    background: 'var(--primary-default)',
+                                    boxShadow: '0 0 12px var(--primary-default)',
                                 }}
                             />
                         </div>
-                        <div className="flex items-center gap-2 mt-3 text-xs text-slate-500">
+                        <div className="flex items-center gap-2 mt-3 text-xs text-fg-muted">
                             <CheckCircle2 size={12} className="text-emerald-500" />
                             <span>{completedFiles.length} of {flatFiles.length} lessons completed</span>
                         </div>
@@ -108,32 +108,32 @@ const Landing: React.FC = () => {
                     {features.map((f, i) => (
                         <div
                             key={i}
-                            className="p-5 rounded-xl bg-slate-900/40 border border-slate-800/40 hover:border-indigo-500/20 transition-colors group"
+                            className="p-5 rounded-xl bg-surface/40 border border-border-default hover:border-primary/20 transition-colors group"
                         >
-                            <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4 group-hover:bg-indigo-500/20 transition-colors">
+                            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:bg-primary/20 transition-colors">
                                 {f.icon}
                             </div>
-                            <h3 className="font-semibold text-white mb-1.5">{f.title}</h3>
-                            <p className="text-sm text-slate-400 leading-relaxed">{f.desc}</p>
+                            <h3 className="font-semibold text-fg-primary mb-1.5">{f.title}</h3>
+                            <p className="text-sm text-fg-secondary leading-relaxed">{f.desc}</p>
                         </div>
                     ))}
                 </div>
 
                 {/* Course outline */}
                 <div className="mt-16">
-                    <h2 className="text-xl font-bold text-white mb-6">Course Outline</h2>
+                    <h2 className="text-xl font-bold text-fg-primary mb-6">Course Outline</h2>
                     <div className="space-y-3">
                         {courses.map((course, i) => (
                             <div
                                 key={course.id}
-                                className="p-4 rounded-xl bg-slate-900/30 border border-slate-800/40"
+                                className="p-4 rounded-xl bg-surface/30 border border-border-default"
                             >
                                 <div className="flex items-center gap-3 mb-2">
-                                    <span className="text-xs font-bold text-indigo-400 tabular-nums">
+                                    <span className="text-xs font-bold text-primary tabular-nums">
                                         {String(i + 1).padStart(2, '0')}
                                     </span>
-                                    <h3 className="font-semibold text-slate-200">{course.name}</h3>
-                                    <span className="text-xs text-slate-500 ml-auto">
+                                    <h3 className="font-semibold text-fg-primary">{course.name}</h3>
+                                    <span className="text-xs text-fg-muted ml-auto">
                                         {course.children?.length || 0} lessons
                                     </span>
                                 </div>
@@ -144,7 +144,7 @@ const Landing: React.FC = () => {
                                             onClick={() => navigate(`/course/${lesson.id}`)}
                                             className={`text-xs px-2.5 py-1 rounded-md transition-colors cursor-pointer ${completedFiles.includes(lesson.id)
                                                 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                                : 'bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:text-slate-200 hover:border-slate-600/50'
+                                                : 'bg-surface-highlight text-fg-muted border border-border-default hover:text-fg-primary hover:border-border-highlight'
                                                 }`}
                                         >
                                             {lesson.name}

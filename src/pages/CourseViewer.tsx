@@ -89,7 +89,7 @@ const CourseViewer: React.FC = () => {
 
             <div className="max-w-7xl mx-auto px-6 py-12 md:px-10">
                 {/* Meta badge */}
-                <div className="mb-8 flex items-center gap-2 text-indigo-400/80 text-xs font-medium uppercase tracking-widest">
+                <div className="mb-8 flex items-center gap-2 text-primary/80 text-xs font-medium uppercase tracking-widest">
                     <Code2 size={14} />
                     <span>Lesson {currentIndex + 1} of {flatFiles.length}</span>
                 </div>
@@ -100,8 +100,8 @@ const CourseViewer: React.FC = () => {
                 </article>
 
                 {/* Action footer */}
-                <div className="mt-16 pt-8 border-t border-slate-800/40 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="text-slate-600 text-xs">
+                <div className="mt-16 pt-8 border-t border-border-default flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="text-fg-muted text-xs">
                         Lesson {currentIndex + 1} of {flatFiles.length}
                     </div>
 
@@ -109,7 +109,7 @@ const CourseViewer: React.FC = () => {
                         {isCompleted && (
                             <button
                                 onClick={handleMarkComplete}
-                                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-all cursor-pointer"
+                                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs text-fg-muted hover:text-warning hover:bg-warning-bg transition-all cursor-pointer"
                                 title="Undo completion"
                             >
                                 <RotateCcw size={14} />
@@ -122,8 +122,8 @@ const CourseViewer: React.FC = () => {
                             className={`
                                 flex items-center gap-2.5 px-6 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer
                                 ${isCompleted
-                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/15'
-                                    : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 hover:-translate-y-0.5 active:translate-y-0'}
+                                    ? 'bg-success-bg text-success border border-success/30 hover:bg-success/20'
+                                    : 'bg-primary text-primary-fg hover:bg-primary-hover shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0'}
                             `}
                         >
                             {isCompleted ? (
@@ -145,17 +145,17 @@ const CourseViewer: React.FC = () => {
                 {currentIndex < flatFiles.length - 1 && (
                     <button
                         onClick={() => navigateLesson('next')}
-                        className="mt-6 w-full p-4 bg-slate-900/50 border border-slate-800/50 rounded-xl cursor-pointer
-                            hover:border-indigo-500/30 group transition-all text-left"
+                        className="mt-6 w-full p-4 bg-surface/50 border border-border-default rounded-xl cursor-pointer
+                            hover:border-primary/30 group transition-all text-left"
                     >
-                        <div className="text-[11px] uppercase tracking-widest text-slate-500 mb-1">Up Next</div>
+                        <div className="text-[11px] uppercase tracking-widest text-fg-muted mb-1">Up Next</div>
                         <div className="flex items-center justify-between">
-                            <span className="font-medium text-slate-200 group-hover:text-indigo-300 transition-colors">
+                            <span className="font-medium text-fg-primary group-hover:text-primary transition-colors">
                                 {flatFiles[currentIndex + 1].name}
                             </span>
                             <ArrowRight
                                 size={16}
-                                className="text-slate-600 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all"
+                                className="text-fg-muted group-hover:text-primary group-hover:translate-x-1 transition-all"
                             />
                         </div>
                     </button>
@@ -163,10 +163,10 @@ const CourseViewer: React.FC = () => {
 
                 {/* Completion celebration */}
                 {progress === 100 && (
-                    <div className="mt-10 p-6 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-violet-500/10 border border-indigo-500/20 text-center">
+                    <div className="mt-10 p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 text-center">
                         <div className="text-4xl mb-3">🎉</div>
-                        <h3 className="text-xl font-bold text-white mb-2">Course Complete!</h3>
-                        <p className="text-slate-400 text-sm">
+                        <h3 className="text-xl font-bold text-fg-primary mb-2">Course Complete!</h3>
+                        <p className="text-fg-secondary text-sm">
                             You've completed all lessons. You're now a React pro.
                         </p>
                     </div>

@@ -53,11 +53,11 @@ const CourseManager: React.FC = () => {
     if (!user) {
         return (
             <div className="flex flex-col items-center justify-center h-full gap-4">
-                <AlertTriangle size={48} className="text-amber-400/60" />
-                <p className="text-slate-400">You need to sign in to manage courses.</p>
+                <AlertTriangle size={48} className="text-warning/60" />
+                <p className="text-fg-muted">You need to sign in to manage courses.</p>
                 <button
                     onClick={() => navigate('/login')}
-                    className="px-6 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-500 transition-colors cursor-pointer"
+                    className="px-6 py-2.5 bg-primary text-primary-fg rounded-xl text-sm font-medium hover:bg-primary-hover transition-colors cursor-pointer"
                 >
                     Sign In
                 </button>
@@ -129,7 +129,7 @@ const CourseManager: React.FC = () => {
             onClick={onClick}
             disabled={disabled}
             title={title}
-            className={`p-1.5 text-slate-500 hover:${hoverColor} disabled:opacity-20 rounded transition-colors cursor-pointer`}
+            className={`p-1.5 text-fg-muted hover:${hoverColor} disabled:opacity-20 rounded transition-colors cursor-pointer`}
         >
             {children}
         </button>
@@ -144,12 +144,12 @@ const CourseManager: React.FC = () => {
             <div className="max-w-3xl mx-auto px-6 py-12 md:px-10">
                 <div className="flex items-center justify-between mb-10">
                     <div>
-                        <h1 className="text-2xl font-bold text-white mb-1">Course Manager</h1>
-                        <p className="text-sm text-slate-500">Add, edit, reorder, and organize your curriculum.</p>
+                        <h1 className="text-2xl font-bold text-fg-primary mb-1">Course Manager</h1>
+                        <p className="text-sm text-fg-secondary">Add, edit, reorder, and organize your curriculum.</p>
                     </div>
                     <button
                         onClick={() => setConfirmReset(!confirmReset)}
-                        className="flex items-center gap-2 px-3 py-2 text-xs text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors cursor-pointer"
+                        className="flex items-center gap-2 px-3 py-2 text-xs text-fg-muted hover:text-warning hover:bg-warning-bg rounded-lg transition-colors cursor-pointer"
                     >
                         <RotateCcw size={14} />
                         <span>Reset</span>
@@ -158,18 +158,18 @@ const CourseManager: React.FC = () => {
 
                 {/* Reset confirmation */}
                 {confirmReset && (
-                    <div className="mb-8 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
-                        <p className="text-sm text-amber-300 mb-3">This will reset all courses to defaults. Your progress will not be affected.</p>
+                    <div className="mb-8 p-4 rounded-xl bg-warning-bg border border-warning/30">
+                        <p className="text-sm text-warning mb-3">This will reset all courses to defaults. Your progress will not be affected.</p>
                         <div className="flex gap-2">
                             <button
                                 onClick={() => { resetToDefaults(); setConfirmReset(false); }}
-                                className="px-4 py-2 text-xs bg-amber-500/20 text-amber-300 rounded-lg hover:bg-amber-500/30 transition-colors cursor-pointer"
+                                className="px-4 py-2 text-xs bg-warning/20 text-warning rounded-lg hover:bg-warning/30 transition-colors cursor-pointer"
                             >
                                 Confirm Reset
                             </button>
                             <button
                                 onClick={() => setConfirmReset(false)}
-                                className="px-4 py-2 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04] transition-colors cursor-pointer"
+                                className="px-4 py-2 text-xs text-fg-muted hover:text-fg-primary rounded-lg hover:bg-surface-highlight transition-colors cursor-pointer"
                             >
                                 Cancel
                             </button>
@@ -185,15 +185,15 @@ const CourseManager: React.FC = () => {
                         value={newCourseName}
                         onChange={(e) => setNewCourseName(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleAddCourse()}
-                        className="flex-1 bg-slate-900/60 border border-slate-800/60 rounded-lg px-4 py-2.5 text-sm
-                            focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30
-                            transition-all placeholder:text-slate-600"
+                        className="flex-1 bg-surface border border-border-default rounded-lg px-4 py-2.5 text-sm
+                            focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30
+                            transition-all placeholder:text-fg-muted text-fg-primary"
                     />
                     <button
                         onClick={handleAddCourse}
                         disabled={!newCourseName.trim()}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium
-                            hover:bg-indigo-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-fg rounded-lg text-sm font-medium
+                            hover:bg-primary-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     >
                         <Plus size={14} />
                         <span>Add Course</span>
@@ -205,32 +205,32 @@ const CourseManager: React.FC = () => {
                     {courses.map((course, courseIdx) => (
                         <div
                             key={course.id}
-                            className="rounded-xl bg-slate-900/40 border border-slate-800/40 overflow-hidden"
+                            className="rounded-xl bg-surface/40 border border-border-default overflow-hidden"
                         >
                             {/* Course header */}
-                            <div className="flex items-center justify-between px-4 py-3 bg-slate-800/30">
+                            <div className="flex items-center justify-between px-4 py-3 bg-surface-highlight/50">
                                 <div className="flex items-center gap-2.5">
-                                    <Folder size={16} className="text-indigo-400/70" />
-                                    <span className="font-semibold text-sm text-white">{course.name}</span>
-                                    <span className="text-xs text-slate-500">{course.children?.length || 0} items</span>
+                                    <Folder size={16} className="text-primary/70" />
+                                    <span className="font-semibold text-sm text-fg-primary">{course.name}</span>
+                                    <span className="text-xs text-fg-muted">{course.children?.length || 0} items</span>
                                 </div>
                                 <div className="flex items-center gap-1">
-                                    <ActionBtn onClick={() => reorderCourse(course.id, 'up')} disabled={courseIdx === 0} title="Move up" hoverColor="text-white">
+                                    <ActionBtn onClick={() => reorderCourse(course.id, 'up')} disabled={courseIdx === 0} title="Move up" hoverColor="text-fg-primary">
                                         <ChevronUp size={14} />
                                     </ActionBtn>
-                                    <ActionBtn onClick={() => reorderCourse(course.id, 'down')} disabled={courseIdx === courses.length - 1} title="Move down" hoverColor="text-white">
+                                    <ActionBtn onClick={() => reorderCourse(course.id, 'down')} disabled={courseIdx === courses.length - 1} title="Move down" hoverColor="text-fg-primary">
                                         <ChevronDown size={14} />
                                     </ActionBtn>
-                                    <ActionBtn onClick={() => handleImportClick(course.id)} title="Import .md file" hoverColor="text-indigo-400">
+                                    <ActionBtn onClick={() => handleImportClick(course.id)} title="Import .md file" hoverColor="text-primary">
                                         <Upload size={14} />
                                     </ActionBtn>
-                                    <ActionBtn onClick={() => setAddingChapterTo(addingChapterTo === course.id ? null : course.id)} title="Add chapter" hoverColor="text-violet-400">
+                                    <ActionBtn onClick={() => setAddingChapterTo(addingChapterTo === course.id ? null : course.id)} title="Add chapter" hoverColor="text-accent">
                                         <FolderPlus size={14} />
                                     </ActionBtn>
-                                    <ActionBtn onClick={() => setAddingLessonTo(addingLessonTo === course.id ? null : course.id)} title="Add lesson" hoverColor="text-emerald-400">
+                                    <ActionBtn onClick={() => setAddingLessonTo(addingLessonTo === course.id ? null : course.id)} title="Add lesson" hoverColor="text-success">
                                         <Plus size={14} />
                                     </ActionBtn>
-                                    <ActionBtn onClick={() => deleteCourse(course.id)} title="Delete course" hoverColor="text-red-400">
+                                    <ActionBtn onClick={() => deleteCourse(course.id)} title="Delete course" hoverColor="text-warning">
                                         <Trash2 size={14} />
                                     </ActionBtn>
                                 </div>
@@ -238,29 +238,29 @@ const CourseManager: React.FC = () => {
 
                             {/* Add chapter form */}
                             {addingChapterTo === course.id && (
-                                <div className="px-4 py-3 border-t border-slate-800/40 space-y-2 bg-violet-500/[0.03]">
+                                <div className="px-4 py-3 border-t border-border-default space-y-2 bg-accent/5">
                                     <input
                                         type="text"
                                         placeholder="Chapter name..."
                                         value={newChapterName}
                                         onChange={(e) => setNewChapterName(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleAddChapter(course.id)}
-                                        className="w-full bg-slate-950/60 border border-slate-800/60 rounded-lg px-3 py-2 text-sm
-                                            focus:outline-none focus:border-violet-500/50 transition-all placeholder:text-slate-600"
+                                        className="w-full bg-surface border border-border-default rounded-lg px-3 py-2 text-sm
+                                            focus:outline-none focus:border-accent/50 transition-all placeholder:text-fg-muted text-fg-primary"
                                     />
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => handleAddChapter(course.id)}
                                             disabled={!newChapterName.trim()}
-                                            className="flex items-center gap-2 px-3 py-1.5 bg-violet-600 text-white rounded-lg text-xs font-medium
-                                                hover:bg-violet-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                                            className="flex items-center gap-2 px-3 py-1.5 bg-accent text-accent-fg rounded-lg text-xs font-medium
+                                                hover:bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                                         >
                                             <FolderPlus size={12} />
                                             <span>Add Chapter</span>
                                         </button>
                                         <button
                                             onClick={() => { setAddingChapterTo(null); setNewChapterName(''); }}
-                                            className="px-3 py-1.5 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04] transition-colors cursor-pointer"
+                                            className="px-3 py-1.5 text-xs text-fg-muted hover:text-fg-primary rounded-lg hover:bg-surface-highlight transition-colors cursor-pointer"
                                         >
                                             Cancel
                                         </button>
@@ -286,27 +286,27 @@ const CourseManager: React.FC = () => {
                                 if (child.type === 'folder') {
                                     // Chapter
                                     return (
-                                        <div key={child.id} className="border-t border-slate-800/20">
-                                            <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800/10 group">
+                                        <div key={child.id} className="border-t border-border-default">
+                                            <div className="flex items-center justify-between px-4 py-2.5 bg-surface-highlight/30 group">
                                                 <div className="flex items-center gap-2 pl-4">
-                                                    <Folder size={13} className="text-violet-400/60 shrink-0" />
-                                                    <span className="text-sm font-medium text-slate-200">{child.name}</span>
-                                                    <span className="text-[11px] text-slate-600">{child.children?.length || 0} lessons</span>
+                                                    <Folder size={13} className="text-secondary/60 shrink-0" />
+                                                    <span className="text-sm font-medium text-fg-primary">{child.name}</span>
+                                                    <span className="text-[11px] text-fg-muted">{child.children?.length || 0} lessons</span>
                                                 </div>
                                                 <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <ActionBtn onClick={() => reorderLesson(course.id, child.id, 'up')} disabled={childIdx === 0} title="Move up" hoverColor="text-white">
+                                                    <ActionBtn onClick={() => reorderLesson(course.id, child.id, 'up')} disabled={childIdx === 0} title="Move up" hoverColor="text-fg-primary">
                                                         <ChevronUp size={12} />
                                                     </ActionBtn>
-                                                    <ActionBtn onClick={() => reorderLesson(course.id, child.id, 'down')} disabled={childIdx === (course.children?.length || 0) - 1} title="Move down" hoverColor="text-white">
+                                                    <ActionBtn onClick={() => reorderLesson(course.id, child.id, 'down')} disabled={childIdx === (course.children?.length || 0) - 1} title="Move down" hoverColor="text-fg-primary">
                                                         <ChevronDown size={12} />
                                                     </ActionBtn>
-                                                    <ActionBtn onClick={() => handleImportClick(child.id)} title="Import .md" hoverColor="text-indigo-400">
+                                                    <ActionBtn onClick={() => handleImportClick(child.id)} title="Import .md" hoverColor="text-primary">
                                                         <Upload size={12} />
                                                     </ActionBtn>
-                                                    <ActionBtn onClick={() => setAddingLessonTo(addingLessonTo === child.id ? null : child.id)} title="Add lesson" hoverColor="text-emerald-400">
+                                                    <ActionBtn onClick={() => setAddingLessonTo(addingLessonTo === child.id ? null : child.id)} title="Add lesson" hoverColor="text-success">
                                                         <Plus size={12} />
                                                     </ActionBtn>
-                                                    <ActionBtn onClick={() => deleteNode(child.id)} title="Delete chapter" hoverColor="text-red-400">
+                                                    <ActionBtn onClick={() => deleteNode(child.id)} title="Delete chapter" hoverColor="text-warning">
                                                         <Trash2 size={12} />
                                                     </ActionBtn>
                                                 </div>
@@ -342,7 +342,7 @@ const CourseManager: React.FC = () => {
                                             ))}
 
                                             {(!child.children || child.children.length === 0) && (
-                                                <div className="px-4 py-3 text-center text-[11px] text-slate-600 pl-12">
+                                                <div className="px-4 py-3 text-center text-[11px] text-fg-muted pl-12">
                                                     No lessons in this chapter.
                                                 </div>
                                             )}
@@ -368,7 +368,7 @@ const CourseManager: React.FC = () => {
                             })}
 
                             {(!course.children || course.children.length === 0) && (
-                                <div className="px-4 py-6 text-center text-xs text-slate-600">
+                                <div className="px-4 py-6 text-center text-xs text-fg-muted">
                                     No items yet. Add a chapter or lesson.
                                 </div>
                             )}
@@ -377,8 +377,8 @@ const CourseManager: React.FC = () => {
                 </div>
 
                 {courses.length === 0 && (
-                    <div className="text-center py-16 text-slate-500">
-                        <Folder size={48} className="mx-auto mb-4 text-slate-700" />
+                    <div className="text-center py-16 text-fg-muted">
+                        <Folder size={48} className="mx-auto mb-4 text-fg-muted/50" />
                         <p>No courses yet. Create one above.</p>
                     </div>
                 )}
@@ -387,12 +387,12 @@ const CourseManager: React.FC = () => {
                 {editingLesson && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setEditingLesson(null)} />
-                        <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800/60 rounded-2xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+                        <div className="relative w-full max-w-2xl bg-surface border border-border-default rounded-2xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-white">Edit Lesson</h2>
+                                <h2 className="text-lg font-semibold text-fg-primary">Edit Lesson</h2>
                                 <button
                                     onClick={() => setEditingLesson(null)}
-                                    className="p-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                                    className="p-1 text-fg-muted hover:text-fg-primary transition-colors cursor-pointer"
                                 >
                                     <X size={18} />
                                 </button>
@@ -401,27 +401,27 @@ const CourseManager: React.FC = () => {
                                 type="text"
                                 value={editName}
                                 onChange={(e) => setEditName(e.target.value)}
-                                className="w-full bg-slate-950/60 border border-slate-800/60 rounded-lg px-4 py-2.5 text-sm
-                                    focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 transition-all"
+                                className="w-full bg-surface border border-border-default rounded-lg px-4 py-2.5 text-sm
+                                    focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all text-fg-primary"
                             />
                             <textarea
                                 value={editContent}
                                 onChange={(e) => setEditContent(e.target.value)}
                                 rows={16}
-                                className="w-full bg-slate-950/60 border border-slate-800/60 rounded-lg px-4 py-3 text-sm font-mono
-                                    focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 transition-all resize-y"
+                                className="w-full bg-surface border border-border-default rounded-lg px-4 py-3 text-sm font-mono
+                                    focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all resize-y text-fg-primary"
                             />
                             <div className="flex justify-end gap-2">
                                 <button
                                     onClick={() => setEditingLesson(null)}
-                                    className="px-4 py-2 text-sm text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04] transition-colors cursor-pointer"
+                                    className="px-4 py-2 text-sm text-fg-muted hover:text-fg-primary rounded-lg hover:bg-surface-highlight transition-colors cursor-pointer"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleSaveEdit}
-                                    className="flex items-center gap-2 px-5 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium
-                                        hover:bg-indigo-500 transition-colors cursor-pointer"
+                                    className="flex items-center gap-2 px-5 py-2 bg-primary text-primary-fg rounded-lg text-sm font-medium
+                                        hover:bg-primary-hover transition-colors cursor-pointer"
                                 >
                                     <Save size={14} />
                                     <span>Save Changes</span>
@@ -465,27 +465,27 @@ interface LessonRowProps {
 
 const LessonRow: React.FC<LessonRowProps> = ({ lesson, lessonIdx, totalLessons, indent, onView, onEdit, onReorder, onDelete }) => (
     <div
-        className="flex items-center justify-between px-4 py-2.5 border-t border-slate-800/20 group hover:bg-white/[0.02] transition-colors"
+        className="flex items-center justify-between px-4 py-2.5 border-t border-border-default/50 group hover:bg-surface-highlight/30 transition-colors"
         style={{ paddingLeft: `${16 + indent * 4}px` }}
     >
         <div className="flex items-center gap-2 min-w-0">
-            <FileText size={13} className="text-slate-500 shrink-0" />
-            <span className="text-sm text-slate-300 truncate">{lesson.name}</span>
+            <FileText size={13} className="text-fg-muted shrink-0" />
+            <span className="text-sm text-fg-secondary truncate">{lesson.name}</span>
         </div>
         <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onClick={onView} className="p-1.5 text-slate-500 hover:text-indigo-400 rounded transition-colors cursor-pointer" title="View">
+            <button onClick={onView} className="p-1.5 text-fg-muted hover:text-primary rounded transition-colors cursor-pointer" title="View">
                 <FileText size={12} />
             </button>
-            <button onClick={onEdit} className="p-1.5 text-slate-500 hover:text-amber-400 rounded transition-colors cursor-pointer" title="Edit">
+            <button onClick={onEdit} className="p-1.5 text-fg-muted hover:text-warning rounded transition-colors cursor-pointer" title="Edit">
                 <Edit3 size={12} />
             </button>
-            <button onClick={() => onReorder('up')} disabled={lessonIdx === 0} className="p-1.5 text-slate-500 hover:text-white disabled:opacity-20 rounded transition-colors cursor-pointer">
+            <button onClick={() => onReorder('up')} disabled={lessonIdx === 0} className="p-1.5 text-fg-muted hover:text-fg-primary disabled:opacity-20 rounded transition-colors cursor-pointer">
                 <ChevronUp size={12} />
             </button>
-            <button onClick={() => onReorder('down')} disabled={lessonIdx === totalLessons - 1} className="p-1.5 text-slate-500 hover:text-white disabled:opacity-20 rounded transition-colors cursor-pointer">
+            <button onClick={() => onReorder('down')} disabled={lessonIdx === totalLessons - 1} className="p-1.5 text-fg-muted hover:text-fg-primary disabled:opacity-20 rounded transition-colors cursor-pointer">
                 <ChevronDown size={12} />
             </button>
-            <button onClick={onDelete} className="p-1.5 text-slate-500 hover:text-red-400 rounded transition-colors cursor-pointer">
+            <button onClick={onDelete} className="p-1.5 text-fg-muted hover:text-warning rounded transition-colors cursor-pointer">
                 <Trash2 size={12} />
             </button>
         </div>
@@ -503,36 +503,36 @@ interface AddLessonFormProps {
 }
 
 const AddLessonForm: React.FC<AddLessonFormProps> = ({ parentId, onAdd, onCancel, lessonName, setLessonName, lessonContent, setLessonContent }) => (
-    <div className="px-4 py-3 border-t border-slate-800/40 space-y-2">
+    <div className="px-4 py-3 border-t border-border-default space-y-2">
         <input
             type="text"
             placeholder="Lesson title..."
             value={lessonName}
             onChange={(e) => setLessonName(e.target.value)}
-            className="w-full bg-slate-950/60 border border-slate-800/60 rounded-lg px-3 py-2 text-sm
-                focus:outline-none focus:border-indigo-500/50 transition-all placeholder:text-slate-600"
+            className="w-full bg-surface border border-border-default rounded-lg px-3 py-2 text-sm
+                focus:outline-none focus:border-primary/50 transition-all placeholder:text-fg-muted text-fg-primary"
         />
         <textarea
             placeholder="Markdown content (optional)..."
             value={lessonContent}
             onChange={(e) => setLessonContent(e.target.value)}
             rows={6}
-            className="w-full bg-slate-950/60 border border-slate-800/60 rounded-lg px-3 py-2 text-sm font-mono
-                focus:outline-none focus:border-indigo-500/50 transition-all placeholder:text-slate-600 resize-y"
+            className="w-full bg-surface border border-border-default rounded-lg px-3 py-2 text-sm font-mono
+                focus:outline-none focus:border-primary/50 transition-all placeholder:text-fg-muted text-fg-primary resize-y"
         />
         <div className="flex gap-2">
             <button
                 onClick={() => onAdd(parentId)}
                 disabled={!lessonName.trim()}
-                className="flex items-center gap-2 px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium
-                    hover:bg-indigo-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-fg rounded-lg text-xs font-medium
+                    hover:bg-primary-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
             >
                 <Plus size={12} />
                 <span>Add Lesson</span>
             </button>
             <button
                 onClick={onCancel}
-                className="px-3 py-1.5 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.04] transition-colors cursor-pointer"
+                className="px-3 py-1.5 text-xs text-fg-muted hover:text-fg-primary rounded-lg hover:bg-surface-highlight transition-colors cursor-pointer"
             >
                 Cancel
             </button>

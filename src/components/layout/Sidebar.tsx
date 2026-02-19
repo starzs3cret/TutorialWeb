@@ -13,6 +13,7 @@ import {
     Settings,
     Package,
 } from 'lucide-react';
+import ThemeSwitcher from '@/components/common/ThemeSwitcher';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBundleContext } from '@/contexts/BundleContext';
 import { flattenFileSystem } from '@/data/courses';
@@ -51,7 +52,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
                 <button
                     onClick={() => onToggleFolder(node.id)}
                     aria-expanded={isExpanded}
-                    className="flex items-center w-full px-3 py-2 text-sm font-medium text-slate-400 hover:text-slate-100 hover:bg-white/[0.04] rounded-lg transition-colors cursor-pointer group"
+                    className="flex items-center w-full px-3 py-2 text-sm font-medium text-fg-secondary hover:text-fg-primary hover:bg-surface-highlight rounded-lg transition-colors cursor-pointer group"
                     style={{ paddingLeft: `${level * 14 + 12}px` }}
                 >
                     <span className="mr-2 text-slate-500 group-hover:text-slate-400 transition-colors">
@@ -96,8 +97,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             className={`
         flex items-center justify-between w-full px-3 py-2 text-sm rounded-lg transition-all cursor-pointer group
         ${isActive
-                    ? 'bg-indigo-500/10 text-indigo-300 shadow-[inset_2px_0_0_0] shadow-indigo-500'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'}
+                    ? 'bg-primary/10 text-primary shadow-[inset_2px_0_0_0] shadow-primary'
+                    : 'text-fg-secondary hover:text-fg-primary hover:bg-surface-highlight'}
       `}
             style={{ paddingLeft: `${level * 14 + 12}px` }}
         >
@@ -172,14 +173,14 @@ const Sidebar: React.FC<SidebarProps> = ({
 
             <aside
                 className={`
-          fixed md:relative z-30 flex flex-col w-72 h-full bg-slate-900/95 backdrop-blur-xl
-          border-r border-slate-800/60 transition-transform duration-300 ease-out
+          fixed md:relative z-30 flex flex-col w-72 h-full bg-surface/95 backdrop-blur-xl
+          border-r border-border-default transition-transform duration-300 ease-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
           ${!isOpen && 'md:w-0 md:border-0 md:overflow-hidden'}
         `}
             >
                 {/* Brand */}
-                <div className="p-5 border-b border-slate-800/60">
+                <div className="p-5 border-b border-border-default">
                     <div className="flex items-center justify-between mb-5">
                         <button
                             onClick={() => navigate('/')}
@@ -188,8 +189,8 @@ const Sidebar: React.FC<SidebarProps> = ({
                             <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center">
                                 <Terminal size={16} className="text-indigo-400" />
                             </div>
-                            <h1 className="font-bold text-base tracking-tight text-white">
-                                DevTutorials<span className="text-indigo-400">.io</span>
+                            <h1 className="font-bold text-base tracking-tight text-fg-primary">
+                                DevTutorials<span className="text-primary">.io</span>
                             </h1>
                         </button>
                         <button
@@ -246,9 +247,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                             placeholder="Filter lessons..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-slate-950/60 border border-slate-800/60 rounded-lg py-2 pl-8 pr-3 text-xs
-                focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30
-                transition-all placeholder:text-slate-600"
+                            className="w-full bg-surface-highlight border border-border-default rounded-lg py-2 pl-8 pr-3 text-xs text-fg-primary
+                focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30
+                transition-all placeholder:text-fg-muted"
                         />
                     </div>
                 </div>
@@ -271,7 +272,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </nav>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-slate-800/60 space-y-3">
+                <div className="p-4 border-t border-border-default space-y-3">
+                    <ThemeSwitcher />
+
                     {/* Manage courses link */}
                     <button
                         onClick={() => navigate('/manage')}
@@ -310,10 +313,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                             </div>
                         )}
                         <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-white truncate">
+                            <div className="text-sm font-medium text-fg-primary truncate">
                                 {user?.displayName || 'Guest'}
                             </div>
-                            <div className="text-[11px] text-slate-500">
+                            <div className="text-[11px] text-fg-muted">
                                 {user ? (isDemo ? 'Demo Mode' : 'Pro Member') : 'Not signed in'}
                             </div>
                         </div>

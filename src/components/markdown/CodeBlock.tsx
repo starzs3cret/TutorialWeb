@@ -121,15 +121,15 @@ const tokenize = (code: string): Token[] => {
 };
 
 const TOKEN_COLORS: Record<Token['type'], string> = {
-    keyword: 'text-violet-400',
-    builtin: 'text-cyan-400',
-    string: 'text-amber-300',
-    comment: 'text-slate-500 italic',
-    tag: 'text-emerald-400',
-    number: 'text-orange-400',
-    operator: 'text-pink-400',
-    punctuation: 'text-slate-400',
-    text: 'text-slate-200',
+    keyword: 'text-[var(--token-keyword)]',
+    builtin: 'text-[var(--token-builtin)]',
+    string: 'text-[var(--token-string)]',
+    comment: 'text-[var(--token-comment)] italic',
+    tag: 'text-[var(--token-tag)]',
+    number: 'text-[var(--token-number)]',
+    operator: 'text-[var(--token-operator)]',
+    punctuation: 'text-[var(--token-punctuation)]',
+    text: 'text-[var(--token-text)]',
 };
 
 const SyntaxHighlighter: React.FC<{ code: string }> = ({ code }) => {
@@ -170,20 +170,20 @@ const CodeBlock: React.FC<{ language: string; code: string }> = ({ language, cod
     }, [code]);
 
     return (
-        <div className="my-6 rounded-xl overflow-hidden border border-slate-700/50 shadow-2xl shadow-black/20 bg-slate-900/80 backdrop-blur-sm group/block">
-            <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800/60 border-b border-slate-700/50">
+        <div className="my-6 rounded-xl overflow-hidden border border-border-default shadow-2xl shadow-black/20 bg-surface/80 backdrop-blur-sm group/block">
+            <div className="flex items-center justify-between px-4 py-2.5 bg-surface-highlight border-b border-border-default">
                 <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-red-500/80" />
                     <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
                     <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
                 <div className="flex items-center gap-3">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase tracking-widest select-none">
+                    <span className="text-[11px] font-mono text-fg-muted uppercase tracking-widest select-none">
                         {language || 'code'}
                     </span>
                     <button
                         onClick={handleCopy}
-                        className="flex items-center justify-center p-1.5 rounded-md hover:bg-slate-700/50 text-slate-400 hover:text-indigo-400 transition-all duration-200 focus:outline-none"
+                        className="flex items-center justify-center p-1.5 rounded-md hover:bg-surface text-fg-muted hover:text-primary transition-all duration-200 focus:outline-none"
                         title="Copy to clipboard"
                         aria-label="Copy code"
                     >
@@ -200,7 +200,7 @@ const CodeBlock: React.FC<{ language: string; code: string }> = ({ language, cod
                     <div className="min-w-fit">
                         {lines.map((line, i) => (
                             <div key={i} className="table-row group">
-                                <span className="table-cell select-none text-right pr-5 w-10 text-slate-600 group-hover:text-slate-500 transition-colors">
+                                <span className="table-cell select-none text-right pr-5 w-10 text-fg-muted group-hover:text-fg-secondary transition-colors">
                                     {i + 1}
                                 </span>
                                 <span className="table-cell whitespace-pre">

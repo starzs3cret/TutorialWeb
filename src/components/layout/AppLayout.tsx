@@ -36,7 +36,7 @@ const AppLayout: React.FC = () => {
     );
 
     return (
-        <div className="flex h-screen bg-slate-950 text-slate-200 font-sans overflow-hidden">
+        <div className="flex h-screen bg-canvas text-fg-primary font-sans overflow-hidden">
             <Sidebar
                 courses={filteredCourses}
                 activeFileId={lessonId || ''}

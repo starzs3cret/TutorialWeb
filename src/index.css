@@ -1,10 +1,200 @@
 @import "tailwindcss";
 
 @theme {
+  /* Semantic Colors - Mapped to CSS Variables */
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-surface-highlight: var(--bg-surface-highlight);
+
+  --color-fg-primary: var(--fg-primary);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
+
+  --color-border-default: var(--border-default);
+  --color-border-highlight: var(--border-highlight);
+
+  --color-primary: var(--primary-default);
+  --color-primary-fg: var(--primary-fg);
+  --color-primary-hover: var(--primary-hover);
+
+  --color-accent: var(--accent-default);
+  --color-accent-fg: var(--accent-fg);
+
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
-/* Custom scrollbar */
+/* Base Variables - Default Fallback (Warm Dark) */
+:root {
+  /* Warm Dark (Gruvbox-ish) */
+  --bg-canvas: #1d2021;
+  --bg-surface: #282828;
+  --bg-surface-highlight: #3c3836;
+
+  --fg-primary: #ebdbb2;
+  --fg-secondary: #a89984;
+  --fg-muted: #7c6f64;
+
+  --border-default: #504945;
+  --border-highlight: #665c54;
+
+  --primary-default: #d79921;
+  --primary-fg: #1d2021;
+  --primary-hover: #fabd2f;
+
+  --accent-default: #b16286;
+  --accent-fg: #fbf1c7;
+
+  --success-default: #98971a;
+  --success-bg: rgba(152, 151, 26, 0.1);
+  --warning-default: #d65d0e;
+  --warning-bg: rgba(214, 93, 14, 0.1);
+
+  /* Syntax Highlighting - Warm Dark */
+  --token-keyword: #d3869b;
+  --token-builtin: #83a598;
+  --token-string: #b8bb26;
+  --token-comment: #928374;
+  --token-tag: #8ec07c;
+  --token-number: #d3869b;
+  --token-operator: #fe8019;
+  --token-punctuation: #a89984;
+  --token-text: #ebdbb2;
+}
+
+/* Theme Overrides */
+/* Warm Dark is default, so no overrides needed */
+
+:root[data-theme="cool-dark"] {
+  /* Nord-ish */
+  --bg-canvas: #242933;
+  /* Darker Nord base */
+  --bg-surface: #2e3440;
+  --bg-surface-highlight: #3b4252;
+
+  --fg-primary: #d8dee9;
+  --fg-secondary: #e5e9f0;
+  /* Slightly lighter for secondary in Nord usually, but sticking to pattern */
+  --fg-secondary: #aeb3bb;
+  /* Actually let's go slightly dimmer */
+  --fg-muted: #4c566a;
+
+  --border-default: #434c5e;
+  --border-highlight: #4c566a;
+
+  --primary-default: #88c0d0;
+  --primary-fg: #2e3440;
+  --primary-hover: #81a1c1;
+
+  --accent-default: #bf616a;
+  --accent-fg: #eceff4;
+
+  --success-default: #a3be8c;
+  --success-bg: rgba(163, 190, 140, 0.1);
+  --warning-default: #d08770;
+  --warning-bg: rgba(208, 135, 112, 0.1);
+
+  /* Syntax - Cool Dark (Nord) */
+  --token-keyword: #81a1c1;
+  --token-builtin: #88c0d0;
+  --token-string: #a3be8c;
+  --token-comment: #4c566a;
+  --token-tag: #81a1c1;
+  --token-number: #b48ead;
+  --token-operator: #81a1c1;
+  --token-punctuation: #eceff4;
+  --token-text: #d8dee9;
+}
+
+:root[data-theme="soft-light"] {
+  /* Solarized/Sepia Light */
+  --bg-canvas: #fdf6e3;
+  --bg-surface: #eee8d5;
+  --bg-surface-highlight: #e6dfc8;
+  /* manual adjustment */
+
+  --fg-primary: #586e75;
+  /* base01 */
+  --fg-secondary: #93a1a1;
+  /* base1 */
+  --fg-muted: #aab7b7;
+  /* lighter base1 equivalent */
+
+  --border-default: #d6d0c0;
+  /* approximate */
+  --border-highlight: #ccc5b0;
+
+  --primary-default: #268bd2;
+  --primary-fg: #fdf6e3;
+  --primary-hover: #2aa198;
+
+  --accent-default: #d33682;
+  --accent-fg: #fdf6e3;
+
+  --success-default: #859900;
+  --success-bg: rgba(133, 153, 0, 0.1);
+  --warning-default: #cb4b16;
+  --warning-bg: rgba(203, 75, 22, 0.1);
+
+  /* Syntax - Soft Light (Solarized Light) */
+  --token-keyword: #859900;
+  --token-builtin: #268bd2;
+  --token-string: #2aa198;
+  --token-comment: #93a1a1;
+  --token-tag: #268bd2;
+  --token-number: #d33682;
+  --token-operator: #859900;
+  --token-punctuation: #657b83;
+  --token-text: #586e75;
+}
+
+:root[data-theme="dim"] {
+  /* Low Contrast Dark */
+  --bg-canvas: #121212;
+  --bg-surface: #1e1e1e;
+  --bg-surface-highlight: #2c2c2c;
+
+  --fg-primary: #a0a0a0;
+  /* Muted white */
+  --fg-secondary: #707070;
+  --fg-muted: #404040;
+
+  --border-default: #333333;
+  --border-highlight: #444444;
+
+  --primary-default: #555555;
+  /* Very muted primary */
+  --primary-fg: #e0e0e0;
+  --primary-hover: #666666;
+
+  --accent-default: #707070;
+  --accent-fg: #121212;
+
+  --success-default: #6c8c6c;
+  --success-bg: rgba(108, 140, 108, 0.1);
+  --warning-default: #8c7c6c;
+  --warning-bg: rgba(140, 124, 108, 0.1);
+
+  /* Syntax - Dim */
+  --token-keyword: #cc99cd;
+  --token-builtin: #61aeee;
+  --token-string: #98c379;
+  --token-comment: #5c6370;
+  --token-tag: #e06c75;
+  --token-number: #d19a66;
+  --token-operator: #c678dd;
+  --token-punctuation: #abb2bf;
+  --token-text: #abb2bf;
+}
+
+
+/* Global Styles using new tokens */
+body {
+  background-color: var(--bg-canvas);
+  color: var(--fg-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbar - updated to use CSS vars */
 .scrollbar-thin::-webkit-scrollbar {
   width: 6px;
 }
@@ -14,10 +204,10 @@
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: theme(--color-slate-700);
+  background: var(--border-default);
   border-radius: 3px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: theme(--color-slate-600);
+  background: var(--border-highlight);
 }
