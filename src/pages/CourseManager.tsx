@@ -32,6 +32,7 @@ const CourseManager: React.FC = () => {
         deleteCourse,
         reorderLesson,
         reorderCourse,
+        renameCourse,
         importMarkdown,
         importMultipleMarkdown,
         resetToDefaults,
@@ -49,6 +50,10 @@ const CourseManager: React.FC = () => {
     const [confirmReset, setConfirmReset] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [importParentId, setImportParentId] = useState<string | null>(null);
+
+    // Rename state
+    const [editingNodeId, setEditingNodeId] = useState<string | null>(null);
+    const [editNodeName, setEditNodeName] = useState('');
 
     if (!user) {
         return (
@@ -96,6 +101,18 @@ const CourseManager: React.FC = () => {
         if (!editingLesson) return;
         updateLesson(editingLesson.lessonId, { name: editName, content: editContent });
         setEditingLesson(null);
+    };
+
+    // Rename functions
+    const handleStartRename = (id: string, currentName: string) => {
+        setEditingNodeId(id);
+        setEditNodeName(currentName);
+    };
+
+    const handleSaveRenameNode = () => {
+        if (!editingNodeId || !editNodeName.trim()) return;
+        renameCourse(editingNodeId, editNodeName.trim());
+        setEditingNodeId(null);
     };
 
     const handleImportClick = (parentId: string) => {
@@ -211,10 +228,37 @@ const CourseManager: React.FC = () => {
                             <div className="flex items-center justify-between px-4 py-3 bg-surface-highlight/50">
                                 <div className="flex items-center gap-2.5">
                                     <Folder size={16} className="text-primary/70" />
-                                    <span className="font-semibold text-sm text-fg-primary">{course.name}</span>
-                                    <span className="text-xs text-fg-muted">{course.children?.length || 0} items</span>
+                                    {editingNodeId === course.id ? (
+                                        <div className="flex items-center gap-1">
+                                            <input
+                                                type="text"
+                                                value={editNodeName}
+                                                onChange={(e) => setEditNodeName(e.target.value)}
+                                                onKeyDown={(e) => e.key === 'Enter' && handleSaveRenameNode()}
+                                                autoFocus
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="bg-surface border border-border-highlight rounded px-2 py-1 text-sm text-fg-primary focus:outline-none focus:border-primary/50 w-48"
+                                            />
+                                            <button onClick={handleSaveRenameNode} className="p-1 text-success hover:text-success/80 cursor-pointer">
+                                                <Edit3 size={14} />
+                                            </button>
+                                            <button onClick={() => setEditingNodeId(null)} className="p-1 text-fg-muted hover:text-fg-primary cursor-pointer">
+                                                <X size={14} />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <span className="font-semibold text-sm text-fg-primary">{course.name}</span>
+                                            <span className="text-xs text-fg-muted">{course.children?.length || 0} items</span>
+                                        </>
+                                    )}
                                 </div>
                                 <div className="flex items-center gap-1">
+                                    {editingNodeId !== course.id && (
+                                        <ActionBtn onClick={() => handleStartRename(course.id, course.name)} title="Rename course" hoverColor="text-fg-primary">
+                                            <Edit3 size={14} />
+                                        </ActionBtn>
+                                    )}
                                     <ActionBtn onClick={() => reorderCourse(course.id, 'up')} disabled={courseIdx === 0} title="Move up" hoverColor="text-fg-primary">
                                         <ChevronUp size={14} />
                                     </ActionBtn>
@@ -290,10 +334,37 @@ const CourseManager: React.FC = () => {
                                             <div className="flex items-center justify-between px-4 py-2.5 bg-surface-highlight/30 group">
                                                 <div className="flex items-center gap-2 pl-4">
                                                     <Folder size={13} className="text-secondary/60 shrink-0" />
-                                                    <span className="text-sm font-medium text-fg-primary">{child.name}</span>
-                                                    <span className="text-[11px] text-fg-muted">{child.children?.length || 0} lessons</span>
+                                                    {editingNodeId === child.id ? (
+                                                        <div className="flex items-center gap-1">
+                                                            <input
+                                                                type="text"
+                                                                value={editNodeName}
+                                                                onChange={(e) => setEditNodeName(e.target.value)}
+                                                                onKeyDown={(e) => e.key === 'Enter' && handleSaveRenameNode()}
+                                                                autoFocus
+                                                                onClick={(e) => e.stopPropagation()}
+                                                                className="bg-surface border border-border-highlight rounded px-2 py-1 text-sm text-fg-primary focus:outline-none focus:border-primary/50 w-40"
+                                                            />
+                                                            <button onClick={handleSaveRenameNode} className="p-1 text-success hover:text-success/80 cursor-pointer">
+                                                                <Edit3 size={12} />
+                                                            </button>
+                                                            <button onClick={() => setEditingNodeId(null)} className="p-1 text-fg-muted hover:text-fg-primary cursor-pointer">
+                                                                <X size={12} />
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            <span className="text-sm font-medium text-fg-primary">{child.name}</span>
+                                                            <span className="text-[11px] text-fg-muted">{child.children?.length || 0} lessons</span>
+                                                        </>
+                                                    )}
                                                 </div>
                                                 <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    {editingNodeId !== child.id && (
+                                                        <ActionBtn onClick={() => handleStartRename(child.id, child.name)} title="Rename chapter" hoverColor="text-fg-primary">
+                                                            <Edit3 size={12} />
+                                                        </ActionBtn>
+                                                    )}
                                                     <ActionBtn onClick={() => reorderLesson(course.id, child.id, 'up')} disabled={childIdx === 0} title="Move up" hoverColor="text-fg-primary">
                                                         <ChevronUp size={12} />
                                                     </ActionBtn>

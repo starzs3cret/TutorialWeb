@@ -23,6 +23,7 @@ interface CourseContextValue {
     deleteCourse: (courseId: string) => void;
     reorderLesson: (parentId: string, childId: string, direction: 'up' | 'down') => void;
     reorderCourse: (courseId: string, direction: 'up' | 'down') => void;
+    renameCourse: (courseId: string, newName: string) => void;
     importMarkdown: (parentId: string, file: File) => Promise<string>;
     importMultipleMarkdown: (parentId: string, files: File[]) => Promise<string[]>;
     resetToDefaults: () => void;
@@ -188,6 +189,10 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         });
     }, []);
 
+    const renameCourse = useCallback((courseId: string, newName: string) => {
+        setCourses((prev) => updateNodeById(prev, courseId, { name: newName }));
+    }, []);
+
     const importMarkdown = useCallback((parentId: string, file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -261,6 +266,7 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 deleteCourse,
                 reorderLesson,
                 reorderCourse,
+                renameCourse,
                 importMarkdown,
                 importMultipleMarkdown,
                 resetToDefaults,
