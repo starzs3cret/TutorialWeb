@@ -11,6 +11,7 @@ interface AuthState {
     user: UserProfile | null;
     loading: boolean;
     isDemo: boolean;
+    error: string | null;
     signIn: () => Promise<void>;
     logOut: () => Promise<void>;
 }
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthState>({
     user: null,
     loading: true,
     isDemo: true,
+    error: null,
     signIn: async () => { },
     logOut: async () => { },
 });
@@ -43,12 +45,14 @@ const mapFirebaseUser = (u: User): UserProfile => ({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const isDemo = !isConfigured;
 
     useEffect(() => {
         if (isConfigured && auth) {
             const unsub = onAuthStateChanged(auth, (firebaseUser: User | null) => {
                 setUser(firebaseUser ? mapFirebaseUser(firebaseUser) : null);
+                setError(null);
                 setLoading(false);
             });
             return unsub;
@@ -76,8 +80,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             localStorage.setItem(DEMO_KEY, JSON.stringify(demoUser));
             return;
         }
-        const result = await signInWithGoogle();
-        setUser(mapFirebaseUser(result.user));
+
+        setError(null);
+        try {
+            const result = await signInWithGoogle();
+            setUser(mapFirebaseUser(result.user));
+        } catch (err: unknown) {
+            // Don't surface popup-closed-by-user — that's intentional
+            if (err instanceof Error && err.message.includes('popup-closed-by-user')) return;
+            const message = err instanceof Error ? err.message : 'Sign-in failed. Please try again.';
+            setError(message);
+            throw err;
+        }
     }, [isDemo]);
 
     const logOut = useCallback(async () => {
@@ -88,10 +102,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         await signOut();
         setUser(null);
+        setError(null);
     }, [isDemo]);
 
     return (
-        <AuthContext.Provider value={{ user, loading, isDemo, signIn, logOut }}>
+        <AuthContext.Provider value={{ user, loading, isDemo, error, signIn, logOut }}>
             {children}
         </AuthContext.Provider>
     );

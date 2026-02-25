@@ -27,6 +27,7 @@ const isConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
 const app = isConfigured ? initializeApp(firebaseConfig) : null;
 const auth = app ? getAuth(app) : null;
 const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export const signInWithGoogle = async () => {
     if (!auth) throw new Error('Firebase not configured');

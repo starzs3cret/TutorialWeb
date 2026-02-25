@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout';
+import ProtectedRoute from '@/components/common/ProtectedRoute';
 import Landing from '@/pages/Landing';
 import CourseViewer from '@/pages/CourseViewer';
 import CourseManager from '@/pages/CourseManager';
@@ -14,8 +15,8 @@ export default function App() {
       <Route element={<AppLayout />}>
         <Route path="/" element={<Landing />} />
         <Route path="/course/:lessonId" element={<CourseViewer />} />
-        <Route path="/manage" element={<CourseManager />} />
-        <Route path="/bundles" element={<BundleManager />} />
+        <Route path="/manage" element={<ProtectedRoute><CourseManager /></ProtectedRoute>} />
+        <Route path="/bundles" element={<ProtectedRoute><BundleManager /></ProtectedRoute>} />
       </Route>
 
       {/* Standalone pages */}

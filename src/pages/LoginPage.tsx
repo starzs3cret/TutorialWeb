@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Terminal, Zap } from 'lucide-react';
+import { Terminal, Zap, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
-    const { user, signIn, isDemo } = useAuth();
+    const { user, signIn, isDemo, error, loading } = useAuth();
+    const [signingIn, setSigningIn] = React.useState(false);
 
     // Redirect if already logged in
     React.useEffect(() => {
@@ -14,13 +15,23 @@ const LoginPage: React.FC = () => {
     }, [user, navigate]);
 
     const handleSignIn = async () => {
+        setSigningIn(true);
         try {
             await signIn();
-            navigate('/manage');
-        } catch (err) {
-            console.error('Sign-in failed:', err);
+        } catch {
+            // error is already set in AuthContext
+        } finally {
+            setSigningIn(false);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-canvas">
+                <Loader2 size={24} className="text-primary animate-spin" />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -45,15 +56,30 @@ const LoginPage: React.FC = () => {
                         <p className="text-sm text-fg-secondary">Sign in to manage your courses</p>
                     </div>
 
+                    {/* Error banner */}
+                    {error && (
+                        <div className="flex items-start gap-2.5 mb-5 px-4 py-3 rounded-xl bg-[var(--warning-bg)] border border-[var(--warning-default)]/30 text-sm text-[var(--warning-default)]">
+                            <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                            <span>{error}</span>
+                        </div>
+                    )}
+
                     {/* Google sign-in button */}
                     <button
                         onClick={handleSignIn}
+                        disabled={signingIn}
                         className="w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl
               bg-surface-highlight text-fg-primary font-semibold text-sm
               hover:bg-surface hover:-translate-y-0.5 active:translate-y-0
-              shadow-lg shadow-black/20 transition-all cursor-pointer border border-border-default hover:border-border-highlight"
+              shadow-lg shadow-black/20 transition-all cursor-pointer border border-border-default hover:border-border-highlight
+              disabled:opacity-50 disabled:pointer-events-none disabled:translate-y-0"
                     >
-                        {isDemo ? (
+                        {signingIn ? (
+                            <>
+                                <Loader2 size={18} className="animate-spin" />
+                                <span>Signing in…</span>
+                            </>
+                        ) : isDemo ? (
                             <>
                                 <Zap size={18} />
                                 <span>Continue as Demo User</span>
