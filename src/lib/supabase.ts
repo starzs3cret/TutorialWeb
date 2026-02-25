@@ -1,0 +1,16 @@
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+
+// ─────────────────────────────────────────────
+// Supabase Client
+// Mirrors the pattern in firebase.ts — graceful
+// no-op when env vars are missing (demo mode).
+// ─────────────────────────────────────────────
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ?? '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY ?? '';
+
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+
+export const supabase: SupabaseClient | null = isSupabaseConfigured
+    ? createClient(supabaseUrl, supabaseAnonKey)
+    : null;

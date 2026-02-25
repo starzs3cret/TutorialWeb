@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CourseProvider } from '@/contexts/CourseContext';
 import { BundleProvider } from '@/contexts/BundleContext';
+import { SupabaseSyncProvider } from '@/contexts/SupabaseSyncProvider';
 import App from './App';
 import './index.css';
 
@@ -17,7 +18,9 @@ createRoot(document.getElementById('root')!).render(
           <AuthProvider>
             <CourseProvider>
               <BundleProvider>
-                <App />
+                <SupabaseSyncProvider>
+                  <App />
+                </SupabaseSyncProvider>
               </BundleProvider>
             </CourseProvider>
           </AuthProvider>
