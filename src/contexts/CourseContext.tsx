@@ -32,6 +32,9 @@ interface CourseContextValue {
     toggleComplete: (id: string) => void;
     isCompleted: (id: string) => boolean;
     progress: number;
+    // Hydration (used by SupabaseSyncProvider)
+    hydrateCourses: (data: FileNode[]) => void;
+    hydrateCompleted: (data: string[]) => void;
 }
 
 const CourseContext = createContext<CourseContextValue | null>(null);
@@ -235,6 +238,16 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setCourses(defaultCourses);
     }, []);
 
+    // ── Hydration (for Supabase sync) ──
+
+    const hydrateCourses = useCallback((data: FileNode[]) => {
+        setCourses(data);
+    }, []);
+
+    const hydrateCompleted = useCallback((data: string[]) => {
+        setCompletedFiles(data);
+    }, []);
+
     // ── Progress ──
 
     const toggleComplete = useCallback((id: string) => {
@@ -274,6 +287,8 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 toggleComplete,
                 isCompleted,
                 progress,
+                hydrateCourses,
+                hydrateCompleted,
             }}
         >
             {children}

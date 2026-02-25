@@ -24,6 +24,9 @@ interface BundleContextValue {
     removeCourseFromBundle: (bundleId: string, courseId: string) => void;
     reorderBundle: (bundleId: string, direction: 'up' | 'down') => void;
     setActiveBundleId: (id: string | null) => void;
+    // Hydration (used by SupabaseSyncProvider)
+    hydrateBundles: (data: Bundle[]) => void;
+    hydrateActiveBundleId: (id: string | null) => void;
 }
 
 const BundleContext = createContext<BundleContextValue | null>(null);
@@ -134,6 +137,16 @@ export const BundleProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         });
     }, []);
 
+    // ── Hydration (for Supabase sync) ──
+
+    const hydrateBundles = useCallback((data: Bundle[]) => {
+        setBundles(data);
+    }, []);
+
+    const hydrateActiveBundleId = useCallback((id: string | null) => {
+        setActiveBundleId(id);
+    }, []);
+
     return (
         <BundleContext.Provider
             value={{
@@ -149,6 +162,8 @@ export const BundleProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 removeCourseFromBundle,
                 reorderBundle,
                 setActiveBundleId,
+                hydrateBundles,
+                hydrateActiveBundleId,
             }}
         >
             {children}
