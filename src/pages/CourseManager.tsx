@@ -507,7 +507,7 @@ const CourseManager: React.FC = () => {
                     ref={fileInputRef}
                     type="file"
                     multiple
-                    accept=".md,.markdown,.txt"
+                    accept=".md,.markdown,.txt,.jsx"
                     onChange={handleFileImport}
                     className="hidden"
                 />

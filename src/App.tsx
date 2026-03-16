@@ -7,6 +7,7 @@ import CourseManager from '@/pages/CourseManager';
 import BundleManager from '@/pages/BundleManager';
 import LoginPage from '@/pages/LoginPage';
 import NotFound from '@/pages/NotFound';
+import ProjectRunner from '@/pages/ProjectRunner';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
 
       {/* Standalone pages */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/project/:lessonId" element={<ProjectRunner />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

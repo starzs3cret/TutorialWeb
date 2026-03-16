@@ -96,7 +96,23 @@ const CourseViewer: React.FC = () => {
 
                 {/* Article */}
                 <article>
-                    <MarkdownRenderer content={activeFile.content || ''} />
+                    {activeFile.name.endsWith('.jsx') ? (
+                        <div className="flex flex-col items-center justify-center p-12 bg-surface-highlight/30 border border-border-default rounded-2xl my-8">
+                            <div className="text-4xl mb-4 text-primary">⚡</div>
+                            <h2 className="text-xl font-bold text-fg-primary mb-2">Interactive React Project</h2>
+                            <p className="text-fg-secondary text-center max-w-md mb-8">
+                                This lesson is a standalone interactive React project. Click the button below to launch it in fullscreen mode.
+                            </p>
+                            <button
+                                onClick={() => navigate(`/project/${activeFile.id}`)}
+                                className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-fg rounded-xl font-bold hover:bg-primary-hover shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-1 transition-all cursor-pointer"
+                            >
+                                <span>▶ Launch Project</span>
+                            </button>
+                        </div>
+                    ) : (
+                        <MarkdownRenderer content={activeFile.content || ''} />
+                    )}
                 </article>
 
                 {/* Action footer */}

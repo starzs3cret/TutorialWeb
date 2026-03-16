@@ -201,7 +201,10 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             const reader = new FileReader();
             reader.onload = (e) => {
                 const content = e.target?.result as string;
-                const name = file.name.replace(/\.md$/, '').replace(/[-_]/g, ' ');
+                let name = file.name.replace(/[-_]/g, ' ');
+                if (!name.endsWith('.jsx')) {
+                    name = name.replace(/\.(md|markdown|txt)$/i, '');
+                }
                 const id = addLesson(parentId, name, content);
                 resolve(id);
             };
@@ -215,7 +218,10 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             const reader = new FileReader();
             reader.onload = (e) => {
                 const content = e.target?.result as string;
-                const name = file.name.replace(/\.md$/, '').replace(/[-_]/g, ' ');
+                let name = file.name.replace(/[-_]/g, ' ');
+                if (!name.endsWith('.jsx')) {
+                    name = name.replace(/\.(md|markdown|txt)$/i, '');
+                }
                 const id = generateId();
                 resolve({ id, name, type: 'file', content });
             };
