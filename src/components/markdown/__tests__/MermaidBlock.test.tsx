@@ -65,5 +65,25 @@ describe('MermaidBlock', () => {
         await waitFor(() => {
             expect(screen.getByTestId('mock-svg')).toBeInTheDocument();
         });
+        await waitFor(() => {
+            expect(screen.getByTestId('mock-svg')).toBeInTheDocument();
+        });
+    });
+
+    it('automatically sanitizes unescaped semicolons in labels when initial render fails', async () => {
+        vi.mocked(mermaid.render)
+            .mockRejectedValueOnce(new Error('Parse error on line 2: semicolon'))
+            .mockResolvedValueOnce({
+                svg: '<svg data-testid="sanitized-svg"></svg>',
+                diagramType: 'sequence',
+                bindFunctions: undefined,
+            });
+
+        const code = 'sequenceDiagram\nDecryptAction->>ConfirmAction: Format: "$deviceId;$key" & Encrypt()';
+        render(<MermaidBlock code={code} />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('sanitized-svg')).toBeInTheDocument();
+        });
     });
 });

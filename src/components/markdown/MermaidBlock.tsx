@@ -41,22 +41,44 @@ export const MermaidBlock: React.FC<MermaidBlockProps> = ({ code }) => {
                 return;
             }
 
-            try {
-                // Ensure temporary element removal if leftover from prior renders
-                const existing = document.getElementById(elementId);
-                if (existing) {
-                    existing.remove();
-                }
+            // Cleanup any existing temporary DOM element leftover from previous attempts
+            const existing = document.getElementById(elementId);
+            if (existing) {
+                existing.remove();
+            }
 
+            try {
                 const { svg } = await mermaid.render(elementId, code);
                 if (isMounted) {
                     setSvgHtml(svg);
                     setError(null);
                 }
-            } catch (err: unknown) {
-                if (isMounted) {
-                    const msg = err instanceof Error ? err.message : 'Invalid Mermaid diagram syntax';
-                    setError(msg);
+            } catch (firstErr: unknown) {
+                // If initial render fails (e.g. unescaped ';' in labels), attempt auto-preprocessing
+                try {
+                    const sanitizedCode = code.split('\n').map(line => {
+                        if (line.includes(':')) {
+                            const idx = line.indexOf(':');
+                            return line.substring(0, idx + 1) + line.substring(idx + 1).replace(/;/g, '#59;');
+                        }
+                        return line;
+                    }).join('\n');
+
+                    const cleanupTemp = document.getElementById(elementId);
+                    if (cleanupTemp) {
+                        cleanupTemp.remove();
+                    }
+
+                    const { svg } = await mermaid.render(elementId, sanitizedCode);
+                    if (isMounted) {
+                        setSvgHtml(svg);
+                        setError(null);
+                    }
+                } catch (err: unknown) {
+                    if (isMounted) {
+                        const msg = firstErr instanceof Error ? firstErr.message : String(firstErr);
+                        setError(msg);
+                    }
                 }
             }
         };
