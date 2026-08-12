@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Check, Copy } from 'lucide-react';
-
+import MermaidBlock from './MermaidBlock';
 // ─────────────────────────────────────────────
 // SYNTAX HIGHLIGHTER (lightweight, zero-dep)
 // ─────────────────────────────────────────────
@@ -150,6 +150,10 @@ const SyntaxHighlighter: React.FC<{ code: string }> = ({ code }) => {
 // ─────────────────────────────────────────────
 
 const CodeBlock: React.FC<{ language: string; code: string }> = ({ language, code }) => {
+    if (language?.toLowerCase() === 'mermaid') {
+        return <MermaidBlock code={code} />;
+    }
+
     const [copied, setCopied] = React.useState(false);
 
     // Split lines and remove trailing newline if empty
